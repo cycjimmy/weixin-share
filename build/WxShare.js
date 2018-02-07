@@ -80,9 +80,14 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_awesome_js_funcs_designPattern_CreateInstance__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_assign_polyfill__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_assign_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_assign_polyfill__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // constructor
+
+
+// polyfill
 
 
 var _instance = new __WEBPACK_IMPORTED_MODULE_0_awesome_js_funcs_designPattern_CreateInstance__["a" /* default */]();
@@ -99,6 +104,15 @@ var WxShare = function () {
     this.isConfigReady = false;
     this.wx = null;
     this.wxConfig = null;
+    this.readyCallBack = null;
+
+    this.defaultShare = {
+      title: '',
+      desc: '',
+      link: window.location.href.replace(/(\?|#).*/g, ''),
+      imgUrl: ''
+    };
+    this._isInitDefaultShare = false;
 
     _instance(this);
   }
@@ -137,6 +151,31 @@ var WxShare = function () {
   };
 
   /**
+   * setReadyCallBack
+   * @param readyCallBack
+   * @return {WxShare}
+   */
+  WxShare.prototype.setReadyCallBack = function setReadyCallBack() {
+    var readyCallBack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
+
+    this.readyCallBack = readyCallBack;
+    return this;
+  };
+
+  /**
+   * setDefaultShare
+   * @param defaultShare
+   * @return {WxShare}
+   */
+  WxShare.prototype.setDefaultShare = function setDefaultShare() {
+    var defaultShare = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    this.defaultShare = Object.assign({}, this.defaultShare, defaultShare);
+    this._isInitDefaultShare = true;
+    return this;
+  };
+
+  /**
    * share
    * @param shareData
    *  {
@@ -152,8 +191,18 @@ var WxShare = function () {
    *    fail:() => {},
    *  }
    */
-  WxShare.prototype.share = function share(shareData) {
+  WxShare.prototype.share = function share() {
     var _this = this;
+
+    var shareData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    if (!this._isInitDefaultShare) {
+      this.setDefaultShare(shareData);
+    } else {
+      shareData = Object.assign({}, this.defaultShare, shareData);
+    }
+
+    console.log(shareData);
 
     return Promise.resolve().then(function () {
       return _this._initWxSDK();
@@ -166,6 +215,14 @@ var WxShare = function () {
       _this.wx.onMenuShareQZone(shareData);
       _this.wx.onMenuShareWeibo(shareData);
     });
+  };
+
+  /**
+   * backToDefault
+   * @return {*}
+   */
+  WxShare.prototype.backToDefault = function backToDefault() {
+    return this.share();
   };
 
   /**
@@ -220,6 +277,11 @@ var WxShare = function () {
 
         _this3.wx.ready(function () {
           _this3.isConfigReady = true;
+
+          if (_this3.readyCallBack) {
+            _this3.readyCallBack();
+          }
+
           resolve();
         });
       }
@@ -251,6 +313,44 @@ var WxShare = function () {
     return instance;
   };
 });
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+if (typeof Object.assign != 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) {
+      // .length of function is 2
+      'use strict';
+
+      if (target == null) {
+        // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource != null) {
+          // Skip over if undefined or null
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}
 
 /***/ })
 /******/ ])["default"];

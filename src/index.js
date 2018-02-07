@@ -1,6 +1,9 @@
 // constructor
 import CreateInstance from 'awesome-js-funcs/designPattern/CreateInstance';
 
+// polyfill
+import 'assign.polyfill';
+
 let
   _instance = new CreateInstance()
 ;
@@ -15,6 +18,15 @@ export default class WxShare {
     this.isConfigReady = false;
     this.wx = null;
     this.wxConfig = null;
+    this.readyCallBack = null;
+
+    this.defaultShare = {
+      title: '',
+      desc: '',
+      link: window.location.href.replace(/(\?|#).*/g, ''),
+      imgUrl: '',
+    };
+    this._isInitDefaultShare = false;
 
     _instance(this);
   };
@@ -57,6 +69,28 @@ export default class WxShare {
   };
 
   /**
+   * setReadyCallBack
+   * @param readyCallBack
+   * @return {WxShare}
+   */
+  setReadyCallBack(readyCallBack = () => {
+  }) {
+    this.readyCallBack = readyCallBack;
+    return this;
+  };
+
+  /**
+   * setDefaultShare
+   * @param defaultShare
+   * @return {WxShare}
+   */
+  setDefaultShare(defaultShare = {}) {
+    this.defaultShare = Object.assign({}, this.defaultShare, defaultShare);
+    this._isInitDefaultShare = true;
+    return this;
+  };
+
+  /**
    * share
    * @param shareData
    *  {
@@ -72,7 +106,15 @@ export default class WxShare {
    *    fail:() => {},
    *  }
    */
-  share(shareData) {
+  share(shareData = {}) {
+    if(!this._isInitDefaultShare) {
+      this.setDefaultShare(shareData);
+    } else {
+      shareData = Object.assign({}, this.defaultShare, shareData);
+    }
+
+    console.log(shareData);
+
     return Promise.resolve()
       .then(() => this._initWxSDK())
       .then(() => this._ready())
@@ -83,6 +125,14 @@ export default class WxShare {
         this.wx.onMenuShareQZone(shareData);
         this.wx.onMenuShareWeibo(shareData);
       });
+  };
+
+  /**
+   * backToDefault
+   * @return {*}
+   */
+  backToDefault() {
+    return this.share();
   };
 
   /**
@@ -133,12 +183,16 @@ export default class WxShare {
 
         this.wx.ready(() => {
           this.isConfigReady = true;
+
+          if (this.readyCallBack) {
+            this.readyCallBack();
+          }
+
           resolve();
         });
       }
     });
   };
 };
-
 
 

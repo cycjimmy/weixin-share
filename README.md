@@ -45,12 +45,25 @@ let WxShare = require('weixin-share');
 
 ```javascript
 new WxShare()
-  .config([WechatJSSDKConfig])
+  .config([wechatJSSDKConfig])
+  .setReadyCallBack([wechatConfigReadyCallBack])
+  .setDefaultShare([defaultShare])
   .share([shareConfig]);
 ```
 
-* `WechatJSSDKConfig`: [object] Wechat JS-SDK Config
-* `shareConfig`: [object] Share Config
+* Function:
+  * `config()`: Set Wechat JS-SDK Config.
+  * `setReadyCallBack()`: Set CallBack function on Wechat Config Ready.
+  * `setDefaultShare()`: Set Default Share Config.
+  * `share()`: Run Main Task of Share.
+  * `backToDefault()`: Back To Default Share Config.
+
+* Params:
+  * `wechatJSSDKConfig`: [Object] Wechat JS-SDK Config.
+  * `wechatConfigReadyCallBack`: [Function] CallBack function on Wechat Config Ready.
+  * `defaultShare`: [Object] Default Share Config.
+  * `shareConfig`: [Object] Share Config.
+
 * [Wechat Official Wiki](https://mp.weixin.qq.com/wiki)
 
 ### Use in browser
