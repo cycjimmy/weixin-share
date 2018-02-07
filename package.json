@@ -1,7 +1,7 @@
 {
-  "name": "wx-share",
-  "version": "0.0.1",
-  "description": "Wechat share",
+  "name": "weixin-share",
+  "version": "0.0.2",
+  "description": "Easier way to call Wechat share on web page.",
   "main": "build/WxShare.js",
   "scripts": {
     "test": "jest",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cycdpo/wx-share.git"
+    "url": "git+https://github.com/cycdpo/weixin-share.git"
   },
   "keywords": [
     "Wechat",
@@ -19,9 +19,9 @@
   "author": "cycjimmy <cycjimmy@gmail.com> (https://github.com/cycjimmy)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cycdpo/wx-share/issues"
+    "url": "https://github.com/cycdpo/weixin-share/issues"
   },
-  "homepage": "https://github.com/cycdpo/wx-share#readme",
+  "homepage": "https://github.com/cycdpo/weixin-share#readme",
   "devDependencies": {
     "autoprefixer": "^7.2.5",
     "babel-core": "^6.26.0",
