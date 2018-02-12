@@ -59,10 +59,25 @@ new WxShare()
   * `backToDefault()`: Back To Default Share Config.
 
 * Params:
-  * `wechatJSSDKConfig`: [Object] Wechat JS-SDK Config.
-  * `wechatConfigReadyCallBack`: [Function] CallBack function on Wechat Config Ready.
-  * `defaultShare`: [Object] Default Share Config.
-  * `shareConfig`: [Object] Share Config.
+  * `wechatJSSDKConfig`: [Require][Object] Wechat JS-SDK Config.
+    * `debug`: [Option][Boolean] Default `false`.
+    * `appId`: [Require][String]
+    * `timestamp`: [Require][Number | String]
+    * `nonceStr`: [Require][String]
+    * `signature`: [Require][String]
+    * `jsApiList`:  [Option][Array<String>] Default `['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo']`
+  * `wechatConfigReadyCallBack`: [Option][Function] CallBack function on Wechat Config Ready.
+  * `defaultShare`: [Option][Object] Default Share Config.
+    * `title`: [Option][String] Set share title.
+    * `desc`: [Option][String] Set share description.
+    * `link`: [Option][String] Set share link url.
+    * `imgUrl`: [Option][String] Set url of Share icon .
+    * `type`: [Option][String] Set type of `'music'`, `'video'` or `'link'`. Default `'link'`.
+    * `dataUrl`: [Option][String] Set data url when `type` is `'music'` or `'video'`. Default `''`.
+    * `success`: [Option][Function] Callback when success.
+    * `cancel`: [Option][Function] Callback when cancel.
+  * `shareConfig`: [Option][Object] Share Config.
+    * See `defaultShare` Params.
 
 * [Wechat Official Wiki](https://mp.weixin.qq.com/wiki)
 
@@ -75,13 +90,13 @@ new WxShare()
       appId: [appId],
       timestamp: [timestamp],
       nonceStr: [nonceStr],
-      signature: [signature],
+      signature: [signature]
     })
     .share({
       title: [share title],
       desc: [share desc],
       link: [share link],
-      imgUrl: [share imgUrl],
+      imgUrl: [share imgUrl]
     });
 </script>
 ```

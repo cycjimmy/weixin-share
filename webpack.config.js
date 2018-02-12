@@ -45,11 +45,11 @@ var config = {
           path.resolve('node_modules')
         ],
         loader: 'babel-loader'
-      },
+      }
     ]
   },
 
-  plugins: [],
+  plugins: []
 };
 
 // dev mode
@@ -62,7 +62,7 @@ if (IS_DEVELOPMENT) {
       root: path.resolve('./'),
       verbose: true,
       dry: false
-    }),
+    })
   );
 }
 
