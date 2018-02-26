@@ -7,7 +7,7 @@
 		exports["WxShare"] = factory();
 	else
 		root["WxShare"] = factory();
-})(typeof self !== 'undefined' ? self : this, function() {
+})(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -54,6 +54,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		}
 /******/ 	};
 /******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -69,19 +74,94 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ "./node_modules/awesome-js-funcs/designPattern/CreateInstance.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/awesome-js-funcs/designPattern/CreateInstance.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_awesome_js_funcs_designPattern_CreateInstance__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_assign_polyfill__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_assign_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_assign_polyfill__);
+__webpack_require__.r(__webpack_exports__);
+/**
+ * 单例模式构造函数(设计模式)
+ * @returns {function(*=)}
+ * @constructor
+ */
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var instance = void 0;
+  return function (newInstance) {
+    if (newInstance) {
+      instance = newInstance;
+    }
+    return instance;
+  };
+});
+
+/***/ }),
+
+/***/ "./src/assign.polyfill.js":
+/*!********************************!*\
+  !*** ./src/assign.polyfill.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+if (typeof Object.assign != 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) {
+      // .length of function is 2
+      'use strict';
+
+      if (target == null) {
+        // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource != null) {
+          // Skip over if undefined or null
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! awesome-js-funcs/designPattern/CreateInstance */ "./node_modules/awesome-js-funcs/designPattern/CreateInstance.js");
+/* harmony import */ var assign_polyfill__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! assign.polyfill */ "./src/assign.polyfill.js");
+/* harmony import */ var assign_polyfill__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(assign_polyfill__WEBPACK_IMPORTED_MODULE_1__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // constructor
@@ -90,7 +170,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // polyfill
 
 
-var _instance = new __WEBPACK_IMPORTED_MODULE_0_awesome_js_funcs_designPattern_CreateInstance__["a" /* default */]();
+var _instance = new awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 var WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js';
 
@@ -294,64 +374,8 @@ var WxShare = function () {
 /* harmony default export */ __webpack_exports__["default"] = (WxShare);
 ;
 
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * 单例模式构造函数(设计模式)
- * @returns {function(*=)}
- * @constructor
- */
-/* harmony default export */ __webpack_exports__["a"] = (function () {
-  var instance = void 0;
-  return function (newInstance) {
-    if (newInstance) {
-      instance = newInstance;
-    }
-    return instance;
-  };
-});
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-if (typeof Object.assign != 'function') {
-  // Must be writable: true, enumerable: false, configurable: true
-  Object.defineProperty(Object, "assign", {
-    value: function assign(target, varArgs) {
-      // .length of function is 2
-      'use strict';
-
-      if (target == null) {
-        // TypeError if undefined or null
-        throw new TypeError('Cannot convert undefined or null to object');
-      }
-
-      var to = Object(target);
-
-      for (var index = 1; index < arguments.length; index++) {
-        var nextSource = arguments[index];
-
-        if (nextSource != null) {
-          // Skip over if undefined or null
-          for (var nextKey in nextSource) {
-            // Avoid bugs when hasOwnProperty is shadowed
-            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-              to[nextKey] = nextSource[nextKey];
-            }
-          }
-        }
-      }
-      return to;
-    },
-    writable: true,
-    configurable: true
-  });
-}
-
 /***/ })
-/******/ ])["default"];
+
+/******/ })["default"];
 });
+//# sourceMappingURL=WxShare.js.map

@@ -13,6 +13,7 @@ var
 
 
 var config = {
+  mode: process.env.NODE_ENV,
   entry: path.resolve('src', 'index.js'),
 
   output: {

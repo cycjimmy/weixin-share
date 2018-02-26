@@ -65,7 +65,7 @@ new WxShare()
     * `timestamp`: [Require][Number | String]
     * `nonceStr`: [Require][String]
     * `signature`: [Require][String]
-    * `jsApiList`:  [Option][Array<String>] Default `['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo']`
+    * `jsApiList`:  [Option][Array\<String\>] Default `['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo']`
   * `wechatConfigReadyCallBack`: [Option][Function] CallBack function on Wechat Config Ready.
   * `defaultShare`: [Option][Object] Default Share Config.
     * `title`: [Option][String] Set share title.
