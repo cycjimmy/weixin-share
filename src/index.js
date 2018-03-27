@@ -2,13 +2,13 @@
 import CreateInstance from 'awesome-js-funcs/designPattern/CreateInstance';
 
 // polyfill
-import 'assign.polyfill';
+import objectAssign from 'object-assign';
 
 let
   _instance = new CreateInstance()
 ;
 
-const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js';
+const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.3.2.js';
 
 export default class WxShare {
   constructor() {
@@ -85,7 +85,7 @@ export default class WxShare {
    * @return {WxShare}
    */
   setDefaultShare(defaultShare = {}) {
-    this.defaultShare = Object.assign({}, this.defaultShare, defaultShare);
+    this.defaultShare = objectAssign({}, this.defaultShare, defaultShare);
     this._isInitDefaultShare = true;
     return this;
   };
@@ -110,7 +110,7 @@ export default class WxShare {
     if(!this._isInitDefaultShare) {
       this.setDefaultShare(shareData);
     } else {
-      shareData = Object.assign({}, this.defaultShare, shareData);
+      shareData = objectAssign({}, this.defaultShare, shareData);
     }
 
     console.log(shareData);

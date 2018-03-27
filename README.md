@@ -6,6 +6,7 @@
 [![devDependencies Status][david-dev-image]][david-dev-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
+[![jsdelivr][jsdelivr-image]][jsdelivr-url]
 [![npm license][license-image]][download-url]
 
 [npm-image]: https://img.shields.io/npm/v/weixin-share.svg
@@ -20,6 +21,8 @@
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/weixin-share.svg?style=flat-square
 [download-url]: https://npmjs.org/package/weixin-share
+[jsdelivr-image]: https://data.jsdelivr.com/v1/package/npm/weixin-share/badge
+[jsdelivr-url]: https://www.jsdelivr.com/package/npm/weixin-share
 [license-image]: https://img.shields.io/npm/l/weixin-share.svg?style=flat-square
 
 
@@ -101,4 +104,9 @@ new WxShare()
 </script>
 ```
 
+## CDN
+To use via a CDN include this in your html:
+```text
+<script src="https://cdn.jsdelivr.net/npm/weixin-share@1.0.0/build/WxShare.min.js"></script>
+```
 

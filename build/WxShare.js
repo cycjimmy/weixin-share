@@ -107,46 +107,105 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/assign.polyfill.js":
-/*!********************************!*\
-  !*** ./src/assign.polyfill.js ***!
-  \********************************/
+/***/ "./node_modules/object-assign/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/object-assign/index.js ***!
+  \*********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-if (typeof Object.assign != 'function') {
-  // Must be writable: true, enumerable: false, configurable: true
-  Object.defineProperty(Object, "assign", {
-    value: function assign(target, varArgs) {
-      // .length of function is 2
-      'use strict';
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
 
-      if (target == null) {
-        // TypeError if undefined or null
-        throw new TypeError('Cannot convert undefined or null to object');
-      }
 
-      var to = Object(target);
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
-      for (var index = 1; index < arguments.length; index++) {
-        var nextSource = arguments[index];
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
 
-        if (nextSource != null) {
-          // Skip over if undefined or null
-          for (var nextKey in nextSource) {
-            // Avoid bugs when hasOwnProperty is shadowed
-            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-              to[nextKey] = nextSource[nextKey];
-            }
-          }
-        }
-      }
-      return to;
-    },
-    writable: true,
-    configurable: true
-  });
+	return Object(val);
 }
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
 
 /***/ }),
 
@@ -160,8 +219,8 @@ if (typeof Object.assign != 'function') {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! awesome-js-funcs/designPattern/CreateInstance */ "./node_modules/awesome-js-funcs/designPattern/CreateInstance.js");
-/* harmony import */ var assign_polyfill__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! assign.polyfill */ "./src/assign.polyfill.js");
-/* harmony import */ var assign_polyfill__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(assign_polyfill__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
+/* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(object_assign__WEBPACK_IMPORTED_MODULE_1__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // constructor
@@ -172,7 +231,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var _instance = new awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
-var WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.2.0.js';
+var WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.3.2.js';
 
 var WxShare = function () {
   function WxShare() {
@@ -250,7 +309,7 @@ var WxShare = function () {
   WxShare.prototype.setDefaultShare = function setDefaultShare() {
     var defaultShare = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    this.defaultShare = Object.assign({}, this.defaultShare, defaultShare);
+    this.defaultShare = object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, this.defaultShare, defaultShare);
     this._isInitDefaultShare = true;
     return this;
   };
@@ -279,7 +338,7 @@ var WxShare = function () {
     if (!this._isInitDefaultShare) {
       this.setDefaultShare(shareData);
     } else {
-      shareData = Object.assign({}, this.defaultShare, shareData);
+      shareData = object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, this.defaultShare, shareData);
     }
 
     console.log(shareData);

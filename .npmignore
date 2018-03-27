@@ -1,1 +1,11 @@
+# IDE
+.idea
+
+# test
+test
+.travis.yml
+
+# project
 dist
+temp
+
