@@ -1,3 +1,8 @@
+/*!
+ * weixin-share v1.0.1
+ * Homepage: https://github.com/cycdpo/weixin-share#readme
+ * Released under the MIT License.
+ */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -46,17 +51,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
 /******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
 /******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -218,33 +238,31 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WxShare; });
 /* harmony import */ var awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! awesome-js-funcs/designPattern/CreateInstance */ "./node_modules/awesome-js-funcs/designPattern/CreateInstance.js");
 /* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
 /* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(object_assign__WEBPACK_IMPORTED_MODULE_1__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 // constructor
+ // polyfill
 
-
-// polyfill
 
 
 var _instance = new awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 var WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.3.2.js';
 
-var WxShare = function () {
+var WxShare =
+/*#__PURE__*/
+function () {
   function WxShare() {
-    _classCallCheck(this, WxShare);
-
     if (_instance()) {
       return _instance();
     }
+
     this.isConfigReady = false;
     this.wx = null;
     this.wxConfig = null;
     this.readyCallBack = null;
-
     this.defaultShare = {
       title: '',
       desc: '',
@@ -255,6 +273,8 @@ var WxShare = function () {
 
     _instance(this);
   }
+
+  var _proto = WxShare.prototype;
 
   /**
    * config
@@ -268,16 +288,15 @@ var WxShare = function () {
    *  jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo'],
    * }
    */
-  WxShare.prototype.config = function config(_ref) {
+  _proto.config = function config(_ref) {
     var _ref$debug = _ref.debug,
-        debug = _ref$debug === undefined ? false : _ref$debug,
+        debug = _ref$debug === void 0 ? false : _ref$debug,
         appId = _ref.appId,
         timestamp = _ref.timestamp,
         nonceStr = _ref.nonceStr,
         signature = _ref.signature,
         _ref$jsApiList = _ref.jsApiList,
-        jsApiList = _ref$jsApiList === undefined ? ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo'] : _ref$jsApiList;
-
+        jsApiList = _ref$jsApiList === void 0 ? ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo'] : _ref$jsApiList;
     this.wxConfig = {
       debug: debug,
       appId: appId,
@@ -294,8 +313,10 @@ var WxShare = function () {
    * @param readyCallBack
    * @return {WxShare}
    */
-  WxShare.prototype.setReadyCallBack = function setReadyCallBack() {
-    var readyCallBack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
+  _proto.setReadyCallBack = function setReadyCallBack(readyCallBack) {
+    if (readyCallBack === void 0) {
+      readyCallBack = function readyCallBack() {};
+    }
 
     this.readyCallBack = readyCallBack;
     return this;
@@ -306,8 +327,10 @@ var WxShare = function () {
    * @param defaultShare
    * @return {WxShare}
    */
-  WxShare.prototype.setDefaultShare = function setDefaultShare() {
-    var defaultShare = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  _proto.setDefaultShare = function setDefaultShare(defaultShare) {
+    if (defaultShare === void 0) {
+      defaultShare = {};
+    }
 
     this.defaultShare = object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, this.defaultShare, defaultShare);
     this._isInitDefaultShare = true;
@@ -330,10 +353,12 @@ var WxShare = function () {
    *    fail:() => {},
    *  }
    */
-  WxShare.prototype.share = function share() {
+  _proto.share = function share(shareData) {
     var _this = this;
 
-    var shareData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    if (shareData === void 0) {
+      shareData = {};
+    }
 
     if (!this._isInitDefaultShare) {
       this.setDefaultShare(shareData);
@@ -342,16 +367,19 @@ var WxShare = function () {
     }
 
     console.log(shareData);
-
     return Promise.resolve().then(function () {
       return _this._initWxSDK();
     }).then(function () {
       return _this._ready();
     }).then(function () {
       _this.wx.onMenuShareAppMessage(shareData);
+
       _this.wx.onMenuShareTimeline(shareData);
+
       _this.wx.onMenuShareQQ(shareData);
+
       _this.wx.onMenuShareQZone(shareData);
+
       _this.wx.onMenuShareWeibo(shareData);
     });
   };
@@ -360,7 +388,7 @@ var WxShare = function () {
    * backToDefault
    * @return {*}
    */
-  WxShare.prototype.backToDefault = function backToDefault() {
+  _proto.backToDefault = function backToDefault() {
     return this.share();
   };
 
@@ -369,7 +397,7 @@ var WxShare = function () {
    * @return {Promise<any>}
    * @private
    */
-  WxShare.prototype._initWxSDK = function _initWxSDK() {
+  _proto._initWxSDK = function _initWxSDK() {
     var _this2 = this;
 
     return new Promise(function (resolve) {
@@ -377,10 +405,12 @@ var WxShare = function () {
         console.log('set wx');
         var oScript = document.createElement("script");
         oScript.type = "text/javascript";
+
         oScript.onload = function () {
           _this2.wx = window.wx;
           resolve();
         };
+
         oScript.src = WX_JSSDK_URL;
         document.querySelector('head').appendChild(oScript);
       };
@@ -404,7 +434,7 @@ var WxShare = function () {
    * @return {Promise<any>}
    * @private
    */
-  WxShare.prototype._ready = function _ready() {
+  _proto._ready = function _ready() {
     var _this3 = this;
 
     return new Promise(function (resolve) {
@@ -412,6 +442,7 @@ var WxShare = function () {
         resolve();
       } else {
         console.log('set wx.config');
+
         _this3.wx.config(_this3.wxConfig);
 
         _this3.wx.ready(function () {
@@ -430,7 +461,7 @@ var WxShare = function () {
   return WxShare;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (WxShare);
+
 ;
 
 /***/ })

@@ -1,5 +1,7 @@
 var
   path = require('path')
+  , webpack = require('webpack')
+  , packageJson = require('./package.json')
 
   // webpack plugin
   , UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -50,7 +52,13 @@ var config = {
     ]
   },
 
-  plugins: []
+  plugins: [
+    new webpack.BannerPlugin({
+      banner: packageJson.name + ' v' + packageJson.version +
+      '\nHomepage: ' + packageJson.homepage +
+      '\nReleased under the ' + packageJson.license + ' License.'
+    })
+  ]
 };
 
 // dev mode
@@ -70,32 +78,40 @@ if (IS_DEVELOPMENT) {
 // production mode
 if (IS_PRODUCTION) {
   config.plugins.push(
+    new webpack.HashedModuleIdsPlugin(),
+
     new CleanWebpackPlugin(['build'], {
       root: path.resolve('./'),
       verbose: true,
       dry: false
-    }),
-
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        ie8: false,
-        ecma: 5,
-        output: {
-          comments: false,
-          beautify: false
-        },
-        compress: {
-          warnings: false,
-          drop_debugger: true,
-          drop_console: true,
-          collapse_vars: true,
-          reduce_vars: true
-        },
-        warnings: false,
-        sourceMap: true
-      }
     })
   );
+
+  config.optimization = {
+    minimizer: [
+      // Uglify Js
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          ie8: false,
+          safari10: true,
+          ecma: 5,
+          output: {
+            comments: /^!/,
+            beautify: false
+          },
+          compress: {
+            warnings: false,
+            drop_debugger: true,
+            drop_console: true,
+            collapse_vars: true,
+            reduce_vars: true
+          },
+          warnings: false,
+          sourceMap: true
+        }
+      }),
+    ]
+  };
 }
 
 module.exports = config;

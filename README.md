@@ -4,7 +4,6 @@
 [![build status][travis-image]][travis-url]
 [![David deps][david-image]][david-url]
 [![devDependencies Status][david-dev-image]][david-dev-url]
-[![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
 [![jsdelivr][jsdelivr-image]][jsdelivr-url]
 [![npm license][license-image]][download-url]
@@ -17,8 +16,6 @@
 [david-url]: https://david-dm.org/cycdpo/weixin-share
 [david-dev-image]: https://david-dm.org/cycdpo/weixin-share/dev-status.svg?style=flat-square
 [david-dev-url]: https://david-dm.org/cycdpo/weixin-share?type=dev
-[node-image]: https://img.shields.io/badge/node.js-%3E=_6.0-green.svg?style=flat-square
-[node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/weixin-share.svg?style=flat-square
 [download-url]: https://npmjs.org/package/weixin-share
 [jsdelivr-image]: https://data.jsdelivr.com/v1/package/npm/weixin-share/badge
@@ -107,6 +104,6 @@ new WxShare()
 ## CDN
 To use via a CDN include this in your html:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/weixin-share@1.0.0/build/WxShare.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/weixin-share@1/build/WxShare.min.js"></script>
 ```
 
