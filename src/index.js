@@ -8,7 +8,7 @@ let
   _instance = new CreateInstance()
 ;
 
-const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.3.2.js';
+const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js';
 
 export default class WxShare {
   constructor() {
@@ -21,7 +21,7 @@ export default class WxShare {
     this.readyCallBack = null;
 
     this.defaultShare = {
-      title: '',
+      title: document.title,
       desc: '',
       link: window.location.href.replace(/(\?|#).*/g, ''),
       imgUrl: '',
@@ -54,7 +54,7 @@ export default class WxShare {
              'onMenuShareAppMessage',
              'onMenuShareQQ',
              'onMenuShareQZone',
-             'onMenuShareWeibo'
+             'onMenuShareWeibo',
            ]
          }) {
     this.wxConfig = {
@@ -94,20 +94,14 @@ export default class WxShare {
    * share
    * @param shareData
    *  {
-   *    imgUrl: '',
-   *    link: '',
    *    title: '',
+   *    link: '',
    *    desc: '',
-   *    type: '',  music/video/link(default)
-   *    dataUrl: '', if music/video type
-   *    trigger:() => {},
-   *    success:() => {},
-   *    cancel:() => {},
-   *    fail:() => {},
+   *    imgUrl: ''
    *  }
    */
   share(shareData = {}) {
-    if(!this._isInitDefaultShare) {
+    if (!this._isInitDefaultShare) {
       this.setDefaultShare(shareData);
     } else {
       shareData = objectAssign({}, this.defaultShare, shareData);
@@ -124,6 +118,8 @@ export default class WxShare {
         this.wx.onMenuShareQQ(shareData);
         this.wx.onMenuShareQZone(shareData);
         this.wx.onMenuShareWeibo(shareData);
+        this.wx.updateAppMessageShareData(shareData, (res) => console.log(res));
+        this.wx.updateTimelineShareData(shareData, (res) => console.log(res));
       });
   };
 
