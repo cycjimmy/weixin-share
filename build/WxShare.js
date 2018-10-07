@@ -1,5 +1,5 @@
 /*!
- * weixin-share v1.0.1
+ * weixin-share v1.2.0
  * Homepage: https://github.com/cycdpo/weixin-share#readme
  * Released under the MIT License.
  */
@@ -116,11 +116,12 @@ __webpack_require__.r(__webpack_exports__);
  * @constructor
  */
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-  var instance = void 0;
+  var instance;
   return function (newInstance) {
     if (newInstance) {
       instance = newInstance;
     }
+
     return instance;
   };
 });
@@ -249,7 +250,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var _instance = new awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
-var WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.3.2.js';
+var WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js';
 
 var WxShare =
 /*#__PURE__*/
@@ -264,7 +265,7 @@ function () {
     this.wxConfig = null;
     this.readyCallBack = null;
     this.defaultShare = {
-      title: '',
+      title: document.title,
       desc: '',
       link: window.location.href.replace(/(\?|#).*/g, ''),
       imgUrl: ''
@@ -341,16 +342,10 @@ function () {
    * share
    * @param shareData
    *  {
-   *    imgUrl: '',
-   *    link: '',
    *    title: '',
+   *    link: '',
    *    desc: '',
-   *    type: '',  music/video/link(default)
-   *    dataUrl: '', if music/video type
-   *    trigger:() => {},
-   *    success:() => {},
-   *    cancel:() => {},
-   *    fail:() => {},
+   *    imgUrl: ''
    *  }
    */
   _proto.share = function share(shareData) {
@@ -381,6 +376,14 @@ function () {
       _this.wx.onMenuShareQZone(shareData);
 
       _this.wx.onMenuShareWeibo(shareData);
+
+      _this.wx.updateAppMessageShareData(shareData, function (res) {
+        return console.log(res);
+      });
+
+      _this.wx.updateTimelineShareData(shareData, function (res) {
+        return console.log(res);
+      });
     });
   };
 
