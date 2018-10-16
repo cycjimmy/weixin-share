@@ -1,11 +1,17 @@
 # IDE
 .idea
+.editorconfig
+
+# doc
+.github
 
 # test
 test
 .travis.yml
 
 # project
+src
 dist
-temp
+static
+yarn.lock
 

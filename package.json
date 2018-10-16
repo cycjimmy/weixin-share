@@ -1,7 +1,7 @@
 {
   "name": "weixin-share",
   "version": "1.2.0",
-  "description": "Easier way to call Wechat share on web page.",
+  "description": "An easier way to call Wechat share on a web page.",
   "main": "build/WxShare.js",
   "scripts": {
     "test": "jest",

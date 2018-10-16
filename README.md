@@ -23,7 +23,7 @@
 [license-image]: https://img.shields.io/npm/l/weixin-share.svg?style=flat-square
 
 
-* Easier way to call Wechat share on web page.
+* An easier way to call Wechat share on a web page.
 [Releases](https://github.com/cycdpo/weixin-share/releases)
 
 ## How to use
@@ -70,10 +70,10 @@ new WxShare()
   * `defaultShare`: [Option][Object] Default Share Config.
     * `title`: [Option][String] Set share title.
     * `desc`: [Option][String] Set share description.
-    * `link`: [Option][String] Set share link url.
-    * `imgUrl`: [Option][String] Set url of Share icon .
+    * `link`: [Option][String] Set share link URL.
+    * `imgUrl`: [Option][String] Set URL of Share icon.
     * `type`: [Option][String] Set type of `'music'`, `'video'` or `'link'`. Default `'link'`.
-    * `dataUrl`: [Option][String] Set data url when `type` is `'music'` or `'video'`. Default `''`.
+    * `dataUrl`: [Option][String] Set data URL when the `type` is `'music'` or `'video'`. Default `''`.
     * `success`: [Option][Function] Callback when success.
     * `cancel`: [Option][Function] Callback when cancel.
   * `shareConfig`: [Option][Object] Share Config.
@@ -102,7 +102,7 @@ new WxShare()
 ```
 
 ## CDN
-To use via a CDN include this in your html:
+To use via a CDN include this in your HTML:
 ```text
 <script src="https://cdn.jsdelivr.net/npm/weixin-share@1/build/WxShare.min.js"></script>
 ```
