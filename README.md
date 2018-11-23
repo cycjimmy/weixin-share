@@ -48,6 +48,7 @@ new WxShare()
   .config([wechatJSSDKConfig])
   .setReadyCallBack([wechatConfigReadyCallBack])
   .setDefaultShare([defaultShare])
+  .setShareSuccessCallBack([shareSuccessCallBack])
   .share([shareConfig]);
 ```
 
@@ -55,6 +56,7 @@ new WxShare()
   * `config()`: Set Wechat JS-SDK Config.
   * `setReadyCallBack()`: Set CallBack function on Wechat Config Ready.
   * `setDefaultShare()`: Set Default Share Config.
+  * `setShareSuccessCallBack()`: Set CallBack function on success of Share. **discard above Wechat 6.7.2 and JSSDK 1.4.0**
   * `share()`: Run Main Task of Share.
   * `backToDefault()`: Back To Default Share Config.
 
@@ -65,17 +67,13 @@ new WxShare()
     * `timestamp`: [Require][Number | String]
     * `nonceStr`: [Require][String]
     * `signature`: [Require][String]
-    * `jsApiList`:  [Option][Array\<String\>] Default `['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo']`
+    * `jsApiList`:  [Option][Array\<String\>] Default `['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo', 'updateAppMessageShareData', 'updateTimelineShareData']`
   * `wechatConfigReadyCallBack`: [Option][Function] CallBack function on Wechat Config Ready.
   * `defaultShare`: [Option][Object] Default Share Config.
     * `title`: [Option][String] Set share title.
     * `desc`: [Option][String] Set share description.
     * `link`: [Option][String] Set share link URL.
     * `imgUrl`: [Option][String] Set URL of Share icon.
-    * `type`: [Option][String] Set type of `'music'`, `'video'` or `'link'`. Default `'link'`.
-    * `dataUrl`: [Option][String] Set data URL when the `type` is `'music'` or `'video'`. Default `''`.
-    * `success`: [Option][Function] Callback when success.
-    * `cancel`: [Option][Function] Callback when cancel.
   * `shareConfig`: [Option][Object] Share Config.
     * See `defaultShare` Params.
 

@@ -1,5 +1,5 @@
 /*!
- * weixin-share v1.2.0
+ * weixin-share v1.3.0
  * Homepage: https://github.com/cycdpo/weixin-share#readme
  * Released under the MIT License.
  */
@@ -262,8 +262,12 @@ function () {
 
     this.isConfigReady = false;
     this.wx = null;
-    this.wxConfig = null;
-    this.readyCallBack = null;
+    this.wxConfig = {};
+
+    this.readyCallBack = function () {};
+
+    this.shareSuccessCallBack = function () {};
+
     this.defaultShare = {
       title: document.title,
       desc: '',
@@ -297,7 +301,7 @@ function () {
         nonceStr = _ref.nonceStr,
         signature = _ref.signature,
         _ref$jsApiList = _ref.jsApiList,
-        jsApiList = _ref$jsApiList === void 0 ? ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo'] : _ref$jsApiList;
+        jsApiList = _ref$jsApiList === void 0 ? ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo', 'updateAppMessageShareData', 'updateTimelineShareData'] : _ref$jsApiList;
     this.wxConfig = {
       debug: debug,
       appId: appId,
@@ -320,6 +324,20 @@ function () {
     }
 
     this.readyCallBack = readyCallBack;
+    return this;
+  };
+
+  /**
+   * setShareSuccessCallBack
+   * @param shareSuccessCallBack
+   * @return {WxShare}
+   */
+  _proto.setShareSuccessCallBack = function setShareSuccessCallBack(shareSuccessCallBack) {
+    if (shareSuccessCallBack === void 0) {
+      shareSuccessCallBack = function shareSuccessCallBack() {};
+    }
+
+    this.shareSuccessCallBack = shareSuccessCallBack;
     return this;
   };
 
@@ -357,32 +375,39 @@ function () {
 
     if (!this._isInitDefaultShare) {
       this.setDefaultShare(shareData);
-    } else {
-      shareData = object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, this.defaultShare, shareData);
     }
 
+    shareData = object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, this.defaultShare, shareData);
     console.log(shareData);
     return Promise.resolve().then(function () {
       return _this._initWxSDK();
     }).then(function () {
       return _this._ready();
     }).then(function () {
-      _this.wx.onMenuShareAppMessage(shareData);
+      var _oldShareData = object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, shareData, {
+        success: function success(res) {
+          return _this.shareSuccessCallBack(res);
+        }
+      });
 
-      _this.wx.onMenuShareTimeline(shareData);
+      _this.wx.onMenuShareWeibo(_oldShareData); // discard
 
-      _this.wx.onMenuShareQQ(shareData);
 
-      _this.wx.onMenuShareQZone(shareData);
+      _this.wx.onMenuShareTimeline(_oldShareData);
 
-      _this.wx.onMenuShareWeibo(shareData);
+      _this.wx.onMenuShareAppMessage(_oldShareData);
+
+      _this.wx.onMenuShareQQ(_oldShareData);
+
+      _this.wx.onMenuShareQZone(_oldShareData); // Above jssdk1.4
+
 
       _this.wx.updateAppMessageShareData(shareData, function (res) {
-        return console.log(res);
+        return _this.shareSuccessCallBack(res);
       });
 
       _this.wx.updateTimelineShareData(shareData, function (res) {
-        return console.log(res);
+        return _this.shareSuccessCallBack(res);
       });
     });
   };
