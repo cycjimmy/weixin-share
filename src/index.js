@@ -4,9 +4,7 @@ import CreateInstance from 'awesome-js-funcs/designPattern/CreateInstance';
 // polyfill
 import objectAssign from 'object-assign';
 
-let
-  _instance = new CreateInstance()
-;
+const _instance = new CreateInstance();
 
 const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js';
 
@@ -17,8 +15,11 @@ export default class WxShare {
     }
     this.isConfigReady = false;
     this.wx = null;
-    this.wxConfig = null;
-    this.readyCallBack = null;
+    this.wxConfig = {};
+    this.readyCallBack = () => {
+    };
+    this.shareSuccessCallBack = () => {
+    };
 
     this.defaultShare = {
       title: document.title,
@@ -55,6 +56,8 @@ export default class WxShare {
              'onMenuShareQQ',
              'onMenuShareQZone',
              'onMenuShareWeibo',
+             'updateAppMessageShareData',
+             'updateTimelineShareData',
            ]
          }) {
     this.wxConfig = {
@@ -76,6 +79,17 @@ export default class WxShare {
   setReadyCallBack(readyCallBack = () => {
   }) {
     this.readyCallBack = readyCallBack;
+    return this;
+  };
+
+  /**
+   * setShareSuccessCallBack
+   * @param shareSuccessCallBack
+   * @return {WxShare}
+   */
+  setShareSuccessCallBack(shareSuccessCallBack = () => {
+  }) {
+    this.shareSuccessCallBack = shareSuccessCallBack;
     return this;
   };
 
@@ -103,9 +117,9 @@ export default class WxShare {
   share(shareData = {}) {
     if (!this._isInitDefaultShare) {
       this.setDefaultShare(shareData);
-    } else {
-      shareData = objectAssign({}, this.defaultShare, shareData);
     }
+
+    shareData = objectAssign({}, this.defaultShare, shareData);
 
     console.log(shareData);
 
@@ -113,13 +127,21 @@ export default class WxShare {
       .then(() => this._initWxSDK())
       .then(() => this._ready())
       .then(() => {
-        this.wx.onMenuShareAppMessage(shareData);
-        this.wx.onMenuShareTimeline(shareData);
-        this.wx.onMenuShareQQ(shareData);
-        this.wx.onMenuShareQZone(shareData);
-        this.wx.onMenuShareWeibo(shareData);
-        this.wx.updateAppMessageShareData(shareData, (res) => console.log(res));
-        this.wx.updateTimelineShareData(shareData, (res) => console.log(res));
+        const _oldShareData = objectAssign({}, shareData, {
+          success: (res) => this.shareSuccessCallBack(res),
+        });
+
+        this.wx.onMenuShareWeibo(_oldShareData);
+
+        // discard
+        this.wx.onMenuShareTimeline(_oldShareData);
+        this.wx.onMenuShareAppMessage(_oldShareData);
+        this.wx.onMenuShareQQ(_oldShareData);
+        this.wx.onMenuShareQZone(_oldShareData);
+
+        // Above jssdk1.4
+        this.wx.updateAppMessageShareData(shareData, (res) => this.shareSuccessCallBack(res));
+        this.wx.updateTimelineShareData(shareData, (res) => this.shareSuccessCallBack(res));
       });
   };
 
