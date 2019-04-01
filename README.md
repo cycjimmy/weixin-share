@@ -57,7 +57,7 @@ new WxShare()
   * `setReadyCallBack()`: Set CallBack function on Wechat Config Ready.
   * `setDefaultShare()`: Set Default Share Config.
   * `setShareSuccessCallBack()`: Set CallBack function on success of Share. **discard above Wechat 6.7.2 and JSSDK 1.4.0**
-  * `share()`: Run Main Task of Share.
+  * `share()`: Run Main Task of Share. It returns `Promise<any>`. If using a chained call, please note the sequence.
   * `backToDefault()`: Back To Default Share Config.
 
 * Params:

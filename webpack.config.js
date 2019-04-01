@@ -55,8 +55,8 @@ var config = {
   plugins: [
     new webpack.BannerPlugin({
       banner: packageJson.name + ' v' + packageJson.version +
-      '\nHomepage: ' + packageJson.homepage +
-      '\nReleased under the ' + packageJson.license + ' License.'
+        '\nHomepage: ' + packageJson.homepage +
+        '\nReleased under the ' + packageJson.license + ' License.'
     })
   ]
 };
@@ -67,8 +67,7 @@ if (IS_DEVELOPMENT) {
   config.devtool = 'source-map';
 
   config.plugins.push(
-    new CleanWebpackPlugin(['dist'], {
-      root: path.resolve('./'),
+    new CleanWebpackPlugin({
       verbose: true,
       dry: false
     })
@@ -79,12 +78,6 @@ if (IS_DEVELOPMENT) {
 if (IS_PRODUCTION) {
   config.plugins.push(
     new webpack.HashedModuleIdsPlugin(),
-
-    new CleanWebpackPlugin(['build'], {
-      root: path.resolve('./'),
-      verbose: true,
-      dry: false
-    })
   );
 
   config.optimization = {

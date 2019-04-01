@@ -1,5 +1,5 @@
 /*!
- * weixin-share v1.3.0
+ * weixin-share v1.3.1
  * Homepage: https://github.com/cycdpo/weixin-share#readme
  * Released under the MIT License.
  */
@@ -365,6 +365,7 @@ function () {
    *    desc: '',
    *    imgUrl: ''
    *  }
+   * @returns {Promise<any | never>}
    */
   _proto.share = function share(shareData) {
     var _this = this;

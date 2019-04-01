@@ -113,6 +113,7 @@ export default class WxShare {
    *    desc: '',
    *    imgUrl: ''
    *  }
+   * @returns {Promise<any | never>}
    */
   share(shareData = {}) {
     if (!this._isInitDefaultShare) {
