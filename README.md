@@ -40,7 +40,7 @@ $ yarn add @cycjimmy/weixin-share
 ```javascript
 import WxShare from '@cycjimmy/weixin-share';
 # OR
-let WxShare = require('@cycjimmy/weixin-share');
+const WxShare = require('@cycjimmy/weixin-share');
 ```
 
 ```javascript

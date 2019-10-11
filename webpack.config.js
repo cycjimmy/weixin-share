@@ -19,9 +19,9 @@ const config = {
 
   output: {
     path: path.resolve('build'),
-    filename: IS_PRODUCTION
-      ? 'WxShare.min.js'
-      : 'WxShare.js',
+    filename: packageJson.name.replace(/^.+\//g, '') + (() => IS_PRODUCTION
+      ? '.min.js'
+      : '.js')(),
     library: 'WxShare',
     libraryTarget: 'umd',
     libraryExport: 'default'
