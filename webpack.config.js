@@ -1,20 +1,19 @@
-var
+const
   path = require('path')
   , webpack = require('webpack')
   , packageJson = require('./package.json')
 
   // webpack plugin
   , UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-  , CleanWebpackPlugin = require('clean-webpack-plugin')
+  , {CleanWebpackPlugin} = require('clean-webpack-plugin')
 ;
 
-var
+const
   IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
   , IS_PRODUCTION = process.env.NODE_ENV === 'production'
 ;
 
-
-var config = {
+const config = {
   mode: process.env.NODE_ENV,
   entry: path.resolve('src', 'index.js'),
 
@@ -41,14 +40,9 @@ var config = {
       // Scripts
       {
         test: /\.js$/,
-        include: [
-          path.resolve('src')
-        ],
-        exclude: [
-          path.resolve('node_modules')
-        ],
+        type: 'javascript/auto',
         loader: 'babel-loader'
-      }
+      },
     ]
   },
 
@@ -70,7 +64,7 @@ if (IS_DEVELOPMENT) {
     new CleanWebpackPlugin({
       verbose: true,
       dry: false
-    })
+    }),
   );
 }
 
@@ -93,7 +87,6 @@ if (IS_PRODUCTION) {
             beautify: false
           },
           compress: {
-            warnings: false,
             drop_debugger: true,
             drop_console: true,
             collapse_vars: true,

@@ -9,9 +9,13 @@
 test
 .travis.yml
 
+# node
+yarn.lock
+yarn-error.log
+
 # project
 src
 dist
-static
-yarn.lock
+*.config.js
+gulpfile.js
 

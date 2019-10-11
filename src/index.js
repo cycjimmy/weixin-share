@@ -1,5 +1,5 @@
 // constructor
-import CreateInstance from 'awesome-js-funcs/designPattern/CreateInstance';
+import CreateInstance from '@cycjimmy/awesome-js-funcs/designPattern/CreateInstance';
 
 // polyfill
 import objectAssign from 'object-assign';
@@ -161,7 +161,7 @@ export default class WxShare {
    */
   _initWxSDK() {
     return new Promise(resolve => {
-      let _setWX = () => {
+      const _setWX = () => {
         console.log('set wx');
         let oScript = document.createElement("script");
         oScript.type = "text/javascript";

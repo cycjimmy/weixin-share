@@ -1,5 +1,5 @@
 /*!
- * weixin-share v1.3.1
+ * weixin-share v1.3.2
  * Homepage: https://github.com/cycdpo/weixin-share#readme
  * Released under the MIT License.
  */
@@ -101,10 +101,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/awesome-js-funcs/designPattern/CreateInstance.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/awesome-js-funcs/designPattern/CreateInstance.js ***!
-  \***********************************************************************/
+/***/ "./node_modules/@cycjimmy/awesome-js-funcs/designPattern/CreateInstance.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@cycjimmy/awesome-js-funcs/designPattern/CreateInstance.js ***!
+  \*********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -142,91 +142,95 @@ object-assign
 @license MIT
 */
 
-
 /* eslint-disable no-unused-vars */
+
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
 function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
+  if (val === null || val === undefined) {
+    throw new TypeError('Object.assign cannot be called with null or undefined');
+  }
 
-	return Object(val);
+  return Object(val);
 }
 
 function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
+  try {
+    if (!Object.assign) {
+      return false;
+    } // Detect buggy property enumeration order in older V8 versions.
+    // https://bugs.chromium.org/p/v8/issues/detail?id=4118
 
-		// Detect buggy property enumeration order in older V8 versions.
 
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
+    var test1 = new String('abc'); // eslint-disable-line no-new-wrappers
 
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
+    test1[5] = 'de';
 
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
+    if (Object.getOwnPropertyNames(test1)[0] === '5') {
+      return false;
+    } // https://bugs.chromium.org/p/v8/issues/detail?id=3056
 
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
+
+    var test2 = {};
+
+    for (var i = 0; i < 10; i++) {
+      test2['_' + String.fromCharCode(i)] = i;
+    }
+
+    var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+      return test2[n];
+    });
+
+    if (order2.join('') !== '0123456789') {
+      return false;
+    } // https://bugs.chromium.org/p/v8/issues/detail?id=3056
+
+
+    var test3 = {};
+    'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+      test3[letter] = letter;
+    });
+
+    if (Object.keys(Object.assign({}, test3)).join('') !== 'abcdefghijklmnopqrst') {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    // We don't expect any of the above to throw, but better to be safe.
+    return false;
+  }
 }
 
 module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
+  var from;
+  var to = toObject(target);
+  var symbols;
 
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
+  for (var s = 1; s < arguments.length; s++) {
+    from = Object(arguments[s]);
 
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
+    for (var key in from) {
+      if (hasOwnProperty.call(from, key)) {
+        to[key] = from[key];
+      }
+    }
 
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
+    if (getOwnPropertySymbols) {
+      symbols = getOwnPropertySymbols(from);
 
-	return to;
+      for (var i = 0; i < symbols.length; i++) {
+        if (propIsEnumerable.call(from, symbols[i])) {
+          to[symbols[i]] = from[symbols[i]];
+        }
+      }
+    }
+  }
+
+  return to;
 };
-
 
 /***/ }),
 
@@ -240,7 +244,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WxShare; });
-/* harmony import */ var awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! awesome-js-funcs/designPattern/CreateInstance */ "./node_modules/awesome-js-funcs/designPattern/CreateInstance.js");
+/* harmony import */ var _cycjimmy_awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cycjimmy/awesome-js-funcs/designPattern/CreateInstance */ "./node_modules/@cycjimmy/awesome-js-funcs/designPattern/CreateInstance.js");
 /* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
 /* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(object_assign__WEBPACK_IMPORTED_MODULE_1__);
 // constructor
@@ -248,7 +252,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _instance = new awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__["default"]();
+var _instance = new _cycjimmy_awesome_js_funcs_designPattern_CreateInstance__WEBPACK_IMPORTED_MODULE_0__["default"]();
 
 var WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js';
 

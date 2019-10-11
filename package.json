@@ -1,6 +1,6 @@
 {
   "name": "weixin-share",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "An easier way to call Wechat share on a web page.",
   "main": "build/WxShare.js",
   "scripts": {
@@ -24,21 +24,21 @@
   },
   "homepage": "https://github.com/cycdpo/weixin-share#readme",
   "devDependencies": {
-    "@babel/core": "^7.4.0",
+    "@babel/core": "^7.6.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.4.2",
-    "babel-jest": "^24.5.0",
-    "babel-loader": "^8.0.5",
-    "clean-webpack-plugin": "^2.0.1",
-    "cross-env": "^5.2.0",
-    "jest": "^24.5.0",
-    "uglify-js": "^3.5.2",
-    "uglifyjs-webpack-plugin": "^2.1.2",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "@babel/preset-env": "^7.6.3",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "cross-env": "^6.0.3",
+    "jest": "^24.9.0",
+    "uglify-js": "^3.6.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9"
   },
   "dependencies": {
-    "awesome-js-funcs": "^0.1.5",
+    "@cycjimmy/awesome-js-funcs": "^1.0.1",
     "object-assign": "^4.1.1"
   }
 }
