@@ -1,28 +1,27 @@
 {
-  "name": "weixin-share",
-  "version": "1.3.2",
+  "name": "@cycjimmy/weixin-share",
+  "version": "2.0.0",
   "description": "An easier way to call Wechat share on a web page.",
-  "main": "build/WxShare.js",
+  "main": "build/weixin-share.js",
   "scripts": {
     "test": "jest",
-    "build": "cross-env NODE_ENV=development webpack --progress --display-modules --display-reasons --display-error-details --color && cross-env NODE_ENV=production webpack --progress --optimize-minimize",
-    "prepare": "npm run build"
+    "build": "cross-env NODE_ENV=development webpack --progress --display-modules --display-reasons --display-error-details --color && cross-env NODE_ENV=production webpack --progress --optimize-minimize"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cycdpo/weixin-share.git"
+    "url": "git+https://github.com/cycjimmy/weixin-share.git"
   },
   "keywords": [
-    "Wechat",
+    "wechat",
     "wexin",
     "share"
   ],
   "author": "cycjimmy <cycjimmy@gmail.com> (https://github.com/cycjimmy)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cycdpo/weixin-share/issues"
+    "url": "https://github.com/cycjimmy/weixin-share/issues"
   },
-  "homepage": "https://github.com/cycdpo/weixin-share#readme",
+  "homepage": "https://github.com/cycjimmy/weixin-share#readme",
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",

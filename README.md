@@ -8,39 +8,39 @@
 [![jsdelivr][jsdelivr-image]][jsdelivr-url]
 [![npm license][license-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/weixin-share.svg
-[npm-url]: https://npmjs.org/package/weixin-share
-[travis-image]: https://img.shields.io/travis/cycdpo/weixin-share.svg?style=flat-square
-[travis-url]: https://travis-ci.org/cycdpo/weixin-share
-[david-image]: https://img.shields.io/david/cycdpo/weixin-share.svg?style=flat-square
-[david-url]: https://david-dm.org/cycdpo/weixin-share
-[david-dev-image]: https://david-dm.org/cycdpo/weixin-share/dev-status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/cycdpo/weixin-share?type=dev
-[download-image]: https://img.shields.io/npm/dm/weixin-share.svg?style=flat-square
-[download-url]: https://npmjs.org/package/weixin-share
-[jsdelivr-image]: https://data.jsdelivr.com/v1/package/npm/weixin-share/badge
-[jsdelivr-url]: https://www.jsdelivr.com/package/npm/weixin-share
-[license-image]: https://img.shields.io/npm/l/weixin-share.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/@cycjimmy/weixin-share.svg
+[npm-url]: https://npmjs.org/package/@cycjimmy/weixin-share
+[travis-image]: https://img.shields.io/travis/cycjimmy/weixin-share.svg?style=flat-square
+[travis-url]: https://travis-ci.org/cycjimmy/weixin-share
+[david-image]: https://img.shields.io/david/cycjimmy/weixin-share.svg?style=flat-square
+[david-url]: https://david-dm.org/cycjimmy/weixin-share
+[david-dev-image]: https://david-dm.org/cycjimmy/weixin-share/dev-status.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/cycjimmy/weixin-share?type=dev
+[download-image]: https://img.shields.io/npm/dm/@cycjimmy/weixin-share.svg?style=flat-square
+[download-url]: https://npmjs.org/package/@cycjimmy/weixin-share
+[jsdelivr-image]: https://data.jsdelivr.com/v1/package/npm/@cycjimmy/weixin-share/badge
+[jsdelivr-url]: https://www.jsdelivr.com/package/npm/@cycjimmy/weixin-share
+[license-image]: https://img.shields.io/npm/l/@cycjimmy/weixin-share.svg?style=flat-square
 
 
-* An easier way to call Wechat share on a web page.
-[Releases](https://github.com/cycdpo/weixin-share/releases)
+* An easier way to call Wechat share on a web page. [Releases](https://github.com/cycjimmy/weixin-share/releases)
+* **[weixin-share](https://github.com/cycdpo/weixin-share) has been renamed to @cycjimmy/weixin-share for scoped NPM package.**
 
 ## How to use
 ### Install
 ```shell
 # via npm
-$ npm install weixin-share --save
+$ npm install @cycjimmy/weixin-share --save
 
 # via yarn
-$ yarn add weixin-share
+$ yarn add @cycjimmy/weixin-share
 ```
 
 ### Usage
 ```javascript
-import WxShare from 'weixin-share';
+import WxShare from '@cycjimmy/weixin-share';
 # OR
-let WxShare = require('weixin-share');
+let WxShare = require('@cycjimmy/weixin-share');
 ```
 
 ```javascript
@@ -81,7 +81,7 @@ new WxShare()
 
 ### Use in browser
 ```html
-<script src="WxShare.min.js"></script>
+<script src="weixin-share.min.js"></script>
 <script>
   new WxShare()
     .config({
@@ -102,6 +102,6 @@ new WxShare()
 ## CDN
 To use via a CDN include this in your HTML:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/weixin-share@1/build/WxShare.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@2/build/weixin-share.min.js"></script>
 ```
 
