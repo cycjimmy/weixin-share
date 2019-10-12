@@ -1,9 +1,6 @@
 // constructor
 import CreateInstance from '@cycjimmy/awesome-js-funcs/designPattern/CreateInstance';
 
-// polyfill
-import objectAssign from 'object-assign';
-
 const _instance = new CreateInstance();
 
 const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js';
@@ -99,7 +96,7 @@ export default class WxShare {
    * @return {WxShare}
    */
   setDefaultShare(defaultShare = {}) {
-    this.defaultShare = objectAssign({}, this.defaultShare, defaultShare);
+    this.defaultShare = Object.assign({}, this.defaultShare, defaultShare);
     this._isInitDefaultShare = true;
     return this;
   };
@@ -120,7 +117,7 @@ export default class WxShare {
       this.setDefaultShare(shareData);
     }
 
-    shareData = objectAssign({}, this.defaultShare, shareData);
+    shareData = Object.assign({}, this.defaultShare, shareData);
 
     console.log(shareData);
 
@@ -128,7 +125,7 @@ export default class WxShare {
       .then(() => this._initWxSDK())
       .then(() => this._ready())
       .then(() => {
-        const _oldShareData = objectAssign({}, shareData, {
+        const _oldShareData = Object.assign({}, shareData, {
           success: (res) => this.shareSuccessCallBack(res),
         });
 

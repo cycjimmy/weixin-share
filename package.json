@@ -1,6 +1,6 @@
 {
   "name": "@cycjimmy/weixin-share",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "An easier way to call Wechat share on a web page.",
   "main": "build/weixin-share.js",
   "scripts": {
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
     "@babel/preset-env": "^7.6.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
@@ -37,7 +38,6 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
-    "@cycjimmy/awesome-js-funcs": "^1.0.1",
-    "object-assign": "^4.1.1"
+    "@cycjimmy/awesome-js-funcs": "^1.0.1"
   }
 }
