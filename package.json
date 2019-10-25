@@ -2,7 +2,7 @@
   "name": "@cycjimmy/weixin-share",
   "version": "2.0.1",
   "description": "An easier way to call Wechat share on a web page.",
-  "main": "build/weixin-share.js",
+  "main": "build/weixin-share.min.js",
   "scripts": {
     "test": "jest",
     "build": "cross-env NODE_ENV=development webpack --progress --display-modules --display-reasons --display-error-details --color && cross-env NODE_ENV=production webpack --progress --optimize-minimize"
@@ -22,22 +22,29 @@
     "url": "https://github.com/cycjimmy/weixin-share/issues"
   },
   "homepage": "https://github.com/cycjimmy/weixin-share#readme",
+  "dependencies": {
+    "@cycjimmy/awesome-js-funcs": "^1.1.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-object-assign": "^7.2.0",
     "@babel/preset-env": "^7.6.3",
+    "@cycjimmy/config-lib": "^1.2.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^6.0.3",
+    "cz-conventional-changelog": "^3.0.2",
     "jest": "^24.9.0",
-    "uglify-js": "^3.6.1",
+    "uglify-js": "^3.6.4",
     "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.41.0",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   },
-  "dependencies": {
-    "@cycjimmy/awesome-js-funcs": "^1.0.1"
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

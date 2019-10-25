@@ -1,4 +1,4 @@
-import WxShare from '../build/weixin-share';
+import WxShare from '../build/weixin-share.min';
 
 describe('test spec', () => {
   const wxShare = new WxShare();
