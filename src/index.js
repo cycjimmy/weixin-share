@@ -1,14 +1,14 @@
 // constructor
 import CreateInstance from '@cycjimmy/awesome-js-funcs/designPattern/CreateInstance';
 
-const _instance = new CreateInstance();
+const instance = new CreateInstance();
 
 const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js';
 
-export default class WxShare {
+export default class {
   constructor() {
-    if (_instance()) {
-      return _instance();
+    if (instance()) {
+      return instance();
     }
     this.isConfigReady = false;
     this.wx = null;
@@ -22,12 +22,12 @@ export default class WxShare {
       title: document.title,
       desc: '',
       link: window.location.href.replace(/(\?|#).*/g, ''),
-      imgUrl: '',
+      imgUrl: ''
     };
     this._isInitDefaultShare = false;
 
-    _instance(this);
-  };
+    instance(this);
+  }
 
   /**
    * config
@@ -54,19 +54,19 @@ export default class WxShare {
              'onMenuShareQZone',
              'onMenuShareWeibo',
              'updateAppMessageShareData',
-             'updateTimelineShareData',
+             'updateTimelineShareData'
            ]
          }) {
     this.wxConfig = {
-      debug: debug,
-      appId: appId,
-      timestamp: timestamp,
-      nonceStr: nonceStr,
-      signature: signature,
-      jsApiList: jsApiList
+      debug,
+      appId,
+      timestamp,
+      nonceStr,
+      signature,
+      jsApiList
     };
     return this;
-  };
+  }
 
   /**
    * setReadyCallBack
@@ -77,7 +77,7 @@ export default class WxShare {
   }) {
     this.readyCallBack = readyCallBack;
     return this;
-  };
+  }
 
   /**
    * setShareSuccessCallBack
@@ -88,7 +88,7 @@ export default class WxShare {
   }) {
     this.shareSuccessCallBack = shareSuccessCallBack;
     return this;
-  };
+  }
 
   /**
    * setDefaultShare
@@ -99,7 +99,7 @@ export default class WxShare {
     this.defaultShare = Object.assign({}, this.defaultShare, defaultShare);
     this._isInitDefaultShare = true;
     return this;
-  };
+  }
 
   /**
    * share
@@ -110,7 +110,7 @@ export default class WxShare {
    *    desc: '',
    *    imgUrl: ''
    *  }
-   * @returns {Promise<any | never>}
+   * @returns {Promise<unknown>}
    */
   share(shareData = {}) {
     if (!this._isInitDefaultShare) {
@@ -119,29 +119,29 @@ export default class WxShare {
 
     shareData = Object.assign({}, this.defaultShare, shareData);
 
-    console.log(shareData);
-
     return Promise.resolve()
       .then(() => this._initWxSDK())
       .then(() => this._ready())
       .then(() => {
-        const _oldShareData = Object.assign({}, shareData, {
-          success: (res) => this.shareSuccessCallBack(res),
+        const oldShareData = Object.assign({}, shareData, {
+          success: (res) => this.shareSuccessCallBack(res)
         });
 
-        this.wx.onMenuShareWeibo(_oldShareData);
+        this.wx.onMenuShareWeibo(oldShareData);
 
         // discard
-        this.wx.onMenuShareTimeline(_oldShareData);
-        this.wx.onMenuShareAppMessage(_oldShareData);
-        this.wx.onMenuShareQQ(_oldShareData);
-        this.wx.onMenuShareQZone(_oldShareData);
+        this.wx.onMenuShareTimeline(oldShareData);
+        this.wx.onMenuShareAppMessage(oldShareData);
+        this.wx.onMenuShareQQ(oldShareData);
+        this.wx.onMenuShareQZone(oldShareData);
 
         // Above jssdk1.4
         this.wx.updateAppMessageShareData(shareData, (res) => this.shareSuccessCallBack(res));
         this.wx.updateTimelineShareData(shareData, (res) => this.shareSuccessCallBack(res));
+
+        return Promise.resolve(shareData);
       });
-  };
+  }
 
   /**
    * backToDefault
@@ -149,7 +149,7 @@ export default class WxShare {
    */
   backToDefault() {
     return this.share();
-  };
+  }
 
   /**
    * init Wechat JSSDK
@@ -157,11 +157,11 @@ export default class WxShare {
    * @private
    */
   _initWxSDK() {
-    return new Promise(resolve => {
-      const _setWX = () => {
-        console.log('set wx');
-        let oScript = document.createElement("script");
-        oScript.type = "text/javascript";
+    return new Promise((resolve) => {
+      const setWX = () => {
+        // set wx
+        const oScript = document.createElement('script');
+        oScript.type = 'text/javascript';
         oScript.onload = () => {
           this.wx = window.wx;
           resolve();
@@ -172,17 +172,15 @@ export default class WxShare {
 
       if (this.wx) {
         resolve();
+      } else if (window.wx) {
+        // has wx
+        this.wx = window.wx;
+        resolve();
       } else {
-        if (window.wx) {
-          console.log('has wx');
-          this.wx = window.wx;
-          resolve();
-        } else {
-          _setWX();
-        }
+        setWX();
       }
     });
-  };
+  }
 
   /**
    * set wx.config
@@ -190,11 +188,11 @@ export default class WxShare {
    * @private
    */
   _ready() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (this.isConfigReady) {
         resolve();
       } else {
-        console.log('set wx.config');
+        // set wx.config
         this.wx.config(this.wxConfig);
 
         this.wx.ready(() => {
@@ -208,7 +206,5 @@ export default class WxShare {
         });
       }
     });
-  };
-};
-
-
+  }
+}

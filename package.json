@@ -2,10 +2,17 @@
   "name": "@cycjimmy/weixin-share",
   "version": "2.0.2",
   "description": "An easier way to call Wechat share on a web page.",
-  "main": "build/weixin-share.min.js",
+  "main": "dist/weixin-share.cjs.js",
+  "module": "dist/weixin-share.esm.js",
+  "browser": "dist/weixin-share.umd.min.js",
   "scripts": {
-    "test": "jest",
-    "build": "cross-env NODE_ENV=development webpack --progress --display-modules --display-reasons --display-error-details --color && cross-env NODE_ENV=production webpack --progress --optimize-minimize"
+    "test": "jest --color",
+    "coveralls": "jest --color --coverage",
+    "lint": "eslint -c .eslintrc 'src/**/*.js'",
+    "lint:fix": "eslint --fix -c .eslintrc 'src/**/*.js' --fix",
+    "build": "npm run build:prod:umd && npm run build:prod",
+    "build:prod": "cross-env NODE_ENV=production rollup -c rollup/rollup.config.prod.js",
+    "build:prod:umd": "cross-env NODE_ENV=production rollup -c rollup/rollup.config.dev.js"
   },
   "repository": {
     "type": "git",
@@ -22,28 +29,33 @@
     "url": "https://github.com/cycjimmy/weixin-share/issues"
   },
   "homepage": "https://github.com/cycjimmy/weixin-share#readme",
+  "files": [
+    "/dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@cycjimmy/awesome-js-funcs": "^1.1.1"
+    "@cycjimmy/awesome-js-funcs": "^2.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/core": "^7.7.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-transform-object-assign": "^7.2.0",
-    "@babel/preset-env": "^7.6.3",
-    "@cycjimmy/config-lib": "^1.2.0",
+    "@babel/preset-env": "^7.7.1",
+    "@cycjimmy/config-lib": "^1.5.0",
     "babel-jest": "^24.9.0",
-    "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
+    "coveralls": "^3.0.7",
     "cross-env": "^6.0.3",
-    "cz-conventional-changelog": "^3.0.2",
+    "eslint": "^6.6.0",
+    "eslint-config-rollup": "^0.1.0",
     "jest": "^24.9.0",
-    "terser-webpack-plugin": "^2.2.1",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+    "rollup": "^1.26.5",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-eslint": "^7.0.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.2"
   }
 }

@@ -1,33 +1,24 @@
 # Weixin Share
-
-[![NPM version][npm-image]][npm-url]
+![][workflows-badge-image]
 [![build status][travis-image]][travis-url]
-[![David deps][david-image]][david-url]
-[![devDependencies Status][david-dev-image]][david-dev-url]
-[![npm download][download-image]][download-url]
-[![jsdelivr][jsdelivr-image]][jsdelivr-url]
+[![libraries dependency status][libraries-status-image]][libraries-status-url]
+[![libraries sourcerank][libraries-sourcerank-image]][libraries-sourcerank-url]
+[![Coverage Status][coverage-image]][coverage-url]
+[![Release date][release-date-image]][release-url]
+[![rollup][rollup-image]][rollup-url]
+[![semantic-release][semantic-image]][semantic-url]
+[![jest][jest-image]][jest-url]
 [![npm license][license-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/@cycjimmy/weixin-share.svg
-[npm-url]: https://npmjs.org/package/@cycjimmy/weixin-share
-[travis-image]: https://img.shields.io/travis/cycjimmy/weixin-share.svg?style=flat-square
-[travis-url]: https://travis-ci.org/cycjimmy/weixin-share
-[david-image]: https://img.shields.io/david/cycjimmy/weixin-share.svg?style=flat-square
-[david-url]: https://david-dm.org/cycjimmy/weixin-share
-[david-dev-image]: https://david-dm.org/cycjimmy/weixin-share/dev-status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/cycjimmy/weixin-share?type=dev
-[download-image]: https://img.shields.io/npm/dm/@cycjimmy/weixin-share.svg?style=flat-square
-[download-url]: https://npmjs.org/package/@cycjimmy/weixin-share
-[jsdelivr-image]: https://data.jsdelivr.com/v1/package/npm/@cycjimmy/weixin-share/badge
-[jsdelivr-url]: https://www.jsdelivr.com/package/npm/@cycjimmy/weixin-share
-[license-image]: https://img.shields.io/npm/l/@cycjimmy/weixin-share.svg?style=flat-square
-
-
-* An easier way to call Wechat share on a web page. [Releases](https://github.com/cycjimmy/weixin-share/releases)
+* An easier way to call Wechat share on a web page.
 * **[weixin-share](https://github.com/cycdpo/weixin-share) has been renamed to @cycjimmy/weixin-share for scoped NPM package.**
 
 ## How to use
 ### Install
+[![NPM version][npm-image]][npm-url]
+[![NPM bundle size][npm-bundle-size-image]][npm-url]
+[![npm download][download-image]][download-url]
+
 ```shell
 # via npm
 $ npm install @cycjimmy/weixin-share --save
@@ -81,7 +72,7 @@ new WxShare()
 
 ### Use in browser
 ```html
-<script src="weixin-share.min.js"></script>
+<script src="weixin-share.umd.min.js"></script>
 <script>
   new WxShare()
     .config({
@@ -100,8 +91,47 @@ new WxShare()
 ```
 
 ## CDN
+[![jsdelivr][jsdelivr-image]][jsdelivr-url]
+
 To use via a CDN include this in your HTML:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@2/build/weixin-share.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@3/dist/weixin-share.umd.min.js"></script>
 ```
+
+<!-- Links: -->
+[npm-image]: https://img.shields.io/npm/v/@cycjimmy/weixin-share
+[npm-url]: https://npmjs.org/package/@cycjimmy/weixin-share
+[npm-bundle-size-image]: https://img.shields.io/bundlephobia/min/@cycjimmy/weixin-share
+
+[download-image]: https://img.shields.io/npm/dt/@cycjimmy/weixin-share
+[download-url]: https://npmjs.org/package/@cycjimmy/weixin-share
+
+[jsdelivr-image]: https://img.shields.io/jsdelivr/npm/hy/@cycjimmy/weixin-share
+[jsdelivr-url]: https://www.jsdelivr.com/package/npm/@cycjimmy/weixin-share
+
+[workflows-badge-image]: https://github.com/cycjimmy/weixin-share/workflows/Test%20CI/badge.svg
+[travis-image]: https://img.shields.io/travis/cycjimmy/weixin-share
+[travis-url]: https://travis-ci.org/cycjimmy/weixin-share
+
+[libraries-status-image]: https://img.shields.io/librariesio/release/npm/@cycjimmy/weixin-share
+[libraries-sourcerank-image]: https://img.shields.io/librariesio/sourcerank/npm/@cycjimmy/weixin-share
+[libraries-status-url]: https://libraries.io/github/cycjimmy/weixin-share
+[libraries-sourcerank-url]: https://libraries.io/npm/@cycjimmy%2Fweixin-share
+
+[coverage-image]: https://img.shields.io/coveralls/github/cycjimmy/weixin-share
+[coverage-url]: https://coveralls.io/github/cycjimmy/weixin-share
+
+[release-date-image]: https://img.shields.io/github/release-date/cycjimmy/weixin-share
+[release-url]: https://github.com/cycjimmy/weixin-share/releases
+
+[rollup-image]: https://img.shields.io/github/package-json/dependency-version/cycjimmy/weixin-share/dev/rollup
+[rollup-url]: https://github.com/rollup/rollup
+
+[semantic-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[semantic-url]: https://github.com/semantic-release/semantic-release
+
+[jest-image]: https://img.shields.io/badge/tested_with-jest-99424f.svg
+[jest-url]: https://github.com/facebook/jest
+
+[license-image]: https://img.shields.io/npm/l/@cycjimmy/weixin-share
 
