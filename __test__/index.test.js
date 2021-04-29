@@ -44,10 +44,6 @@ describe('WxShare', () => {
 
   it('wxShare.wxConfig.jsApiList should be equal to default jsApiList.', () => {
     expect(wxShare.wxConfig.jsApiList).toEqual([
-      'onMenuShareTimeline',
-      'onMenuShareAppMessage',
-      'onMenuShareQQ',
-      'onMenuShareQZone',
       'onMenuShareWeibo',
       'updateAppMessageShareData',
       'updateTimelineShareData'
