@@ -3,7 +3,7 @@ import CreateInstance from '@cycjimmy/awesome-js-funcs/designPattern/CreateInsta
 
 const instance = new CreateInstance();
 
-const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js';
+const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.6.0.js';
 
 export default class {
   constructor() {
@@ -29,15 +29,13 @@ export default class {
 
   /**
    * config
-   * @param configData
-   * {
-   *  debug: false,
-   *  appId: '',
-   *  timestamp: 0,
-   *  nonceStr: '',
-   *  signature: '',
-   *  jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo'],
-   * }
+   * @param debug
+   * @param appId
+   * @param timestamp
+   * @param nonceStr
+   * @param signature
+   * @param jsApiList
+   * @returns {{share(*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack(*=): NodeJS.Global.WxShare, _ready(): Promise<*>, setShareSuccessCallBack(*=): NodeJS.Global.WxShare, _initWxSDK(): Promise<*>, setDefaultShare(*=): NodeJS.Global.WxShare, backToDefault(): *, config({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}
    */
   config({
     debug = false,
@@ -46,10 +44,6 @@ export default class {
     nonceStr,
     signature,
     jsApiList = [
-      'onMenuShareTimeline',
-      'onMenuShareAppMessage',
-      'onMenuShareQQ',
-      'onMenuShareQZone',
       'onMenuShareWeibo',
       'updateAppMessageShareData',
       'updateTimelineShareData'
@@ -124,12 +118,6 @@ export default class {
         });
 
         this.wx.onMenuShareWeibo(oldShareData);
-
-        // discard
-        this.wx.onMenuShareTimeline(oldShareData);
-        this.wx.onMenuShareAppMessage(oldShareData);
-        this.wx.onMenuShareQQ(oldShareData);
-        this.wx.onMenuShareQZone(oldShareData);
 
         // Above jssdk1.4
         this.wx.updateAppMessageShareData(finalShareData, (res) => this.shareSuccessCallBack(res));

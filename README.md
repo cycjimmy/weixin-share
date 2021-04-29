@@ -58,7 +58,7 @@ new WxShare()
     * `timestamp`: [Require][Number | String]
     * `nonceStr`: [Require][String]
     * `signature`: [Require][String]
-    * `jsApiList`:  [Option][Array\<String\>] Default `['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone', 'onMenuShareWeibo', 'updateAppMessageShareData', 'updateTimelineShareData']`
+    * `jsApiList`:  [Option][Array\<String\>] Default `['onMenuShareWeibo', 'updateAppMessageShareData', 'updateTimelineShareData']`
   * `wechatConfigReadyCallBack`: [Option][Function] CallBack function on Wechat Config Ready.
   * `defaultShare`: [Option][Object] Default Share Config.
     * `title`: [Option][String] Set share title.
@@ -95,7 +95,7 @@ new WxShare()
 
 To use via a CDN include this in your HTML:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@3/dist/weixin-share.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@4/dist/weixin-share.umd.min.js"></script>
 ```
 
 <!-- Links: -->
