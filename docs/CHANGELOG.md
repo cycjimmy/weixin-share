@@ -1,3 +1,10 @@
+## [5.1.1](https://github.com/cycjimmy/weixin-share/compare/v5.1.0...v5.1.1) (2021-04-29)
+
+
+### Bug Fixes
+
+* use default export ([cba503f](https://github.com/cycjimmy/weixin-share/commit/cba503fcd895b5a5873586d40f08dbed342b8e9a))
+
 # [5.1.0](https://github.com/cycjimmy/weixin-share/compare/v5.0.0...v5.1.0) (2021-04-29)
 
 
