@@ -1,7 +1,6 @@
-import WxShare from '../src/index';
+import wxShare from '../src/index';
 
 describe('WxShare', () => {
-  const wxShare = new WxShare();
   const wxConfig = {
     appId: 'appId',
     nonceStr: "nonceStr",
@@ -29,10 +28,6 @@ describe('WxShare', () => {
 
   // set config
   wxShare.config(wxConfig);
-
-  it('Singleton mode: new WxShare() should be wxShare.', () => {
-    expect(new WxShare()).toBe(wxShare);
-  });
 
   it('wxShare.wxConfig.debug should be false.', () => {
     expect(wxShare.wxConfig.debug).toBe(false);
@@ -80,14 +75,6 @@ describe('WxShare', () => {
       },
       ready: cb => cb(),
       onMenuShareWeibo: () => {
-      },
-      onMenuShareTimeline: () => {
-      },
-      onMenuShareAppMessage: () => {
-      },
-      onMenuShareQQ: () => {
-      },
-      onMenuShareQZone: () => {
       },
       updateAppMessageShareData: () => {
       },

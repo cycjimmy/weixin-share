@@ -29,13 +29,13 @@ $ yarn add @cycjimmy/weixin-share
 
 ### Usage
 ```javascript
-import WxShare from '@cycjimmy/weixin-share';
+import wxShare from '@cycjimmy/weixin-share';
 # OR
-const WxShare = require('@cycjimmy/weixin-share');
+const wxShare = require('@cycjimmy/weixin-share');
 ```
 
 ```javascript
-new WxShare()
+wxShare
   .config([wechatJSSDKConfig])
   .setReadyCallBack([wechatConfigReadyCallBack])
   .setDefaultShare([defaultShare])
@@ -74,7 +74,7 @@ new WxShare()
 ```html
 <script src="weixin-share.umd.min.js"></script>
 <script>
-  new WxShare()
+  wxShare
     .config({
       appId: [appId],
       timestamp: [timestamp],
@@ -95,7 +95,7 @@ new WxShare()
 
 To use via a CDN include this in your HTML:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@4/dist/weixin-share.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@4/dist/weixin-share.umd.min.js"></script>
 ```
 
 <!-- Links: -->
