@@ -1,3 +1,16 @@
+# [4.0.0](https://github.com/cycjimmy/weixin-share/compare/v3.0.0...v4.0.0) (2021-04-29)
+
+
+### Features
+
+* **sdk:** discard old sdk version ([46191d8](https://github.com/cycjimmy/weixin-share/commit/46191d8252ef122d8a24089db98969d3b7c70a19))
+
+
+### BREAKING CHANGES
+
+* **sdk:** discard
+wx.onMenuShareTimeline、wx.onMenuShareAppMessage、wx.onMenuShareQQ、wx.onMenuShareQZone
+
 # [3.0.0](https://github.com/cycjimmy/weixin-share/compare/v2.0.2...v3.0.0) (2019-11-11)
 
 
