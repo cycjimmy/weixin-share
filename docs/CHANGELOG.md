@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/cycjimmy/weixin-share/compare/v4.0.0...v4.0.1) (2021-04-29)
+
+
+### Bug Fixes
+
+* use rollup 2.33 ([1e6cb05](https://github.com/cycjimmy/weixin-share/commit/1e6cb057d7fc9491a40d3202ea126b7cd441f21c))
+
 # [4.0.0](https://github.com/cycjimmy/weixin-share/compare/v3.0.0...v4.0.0) (2021-04-29)
 
 
