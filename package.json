@@ -1,6 +1,6 @@
 {
   "name": "@cycjimmy/weixin-share",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "An easier way to call Wechat share on a web page.",
   "main": "dist/weixin-share.cjs.js",
   "module": "dist/weixin-share.esm.js",

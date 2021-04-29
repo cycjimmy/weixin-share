@@ -1,3 +1,10 @@
+## [4.0.2](https://github.com/cycjimmy/weixin-share/compare/v4.0.1...v4.0.2) (2021-04-29)
+
+
+### Bug Fixes
+
+* change rollup/plugin versions ([21c8b22](https://github.com/cycjimmy/weixin-share/commit/21c8b22527c6e953b400ec926a4e60aa47fbb238))
+
 ## [4.0.1](https://github.com/cycjimmy/weixin-share/compare/v4.0.0...v4.0.1) (2021-04-29)
 
 
