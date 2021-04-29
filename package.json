@@ -36,26 +36,26 @@
     "access": "public"
   },
   "dependencies": {
-    "@cycjimmy/awesome-js-funcs": "^2.0.1"
+    "@cycjimmy/awesome-js-funcs": "^2.5.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-transform-object-assign": "^7.2.0",
-    "@babel/preset-env": "^7.7.1",
-    "@cycjimmy/config-lib": "^1.5.0",
-    "babel-jest": "^24.9.0",
-    "coveralls": "^3.0.7",
-    "cross-env": "^6.0.3",
-    "eslint": "^6.6.0",
+    "@babel/core": "^7.13.16",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-object-assign": "^7.12.13",
+    "@babel/preset-env": "^7.13.15",
+    "@cycjimmy/config-lib": "^1.7.1",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "babel-jest": "^26.6.3",
+    "coveralls": "^3.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.25.0",
     "eslint-config-rollup": "^0.1.0",
-    "jest": "^24.9.0",
-    "rollup": "^1.26.5",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.1.0",
+    "jest": "^26.6.3",
+    "rollup": "^2.46.0",
     "rollup-plugin-eslint": "^7.0.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.1.2"
+    "rollup-plugin-terser": "^7.0.2"
   }
 }

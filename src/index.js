@@ -13,10 +13,8 @@ export default class {
     this.isConfigReady = false;
     this.wx = null;
     this.wxConfig = {};
-    this.readyCallBack = () => {
-    };
-    this.shareSuccessCallBack = () => {
-    };
+    this.readyCallBack = () => {};
+    this.shareSuccessCallBack = () => {};
 
     this.defaultShare = {
       title: document.title,
@@ -42,21 +40,21 @@ export default class {
    * }
    */
   config({
-           debug = false,
-           appId,
-           timestamp,
-           nonceStr,
-           signature,
-           jsApiList = [
-             'onMenuShareTimeline',
-             'onMenuShareAppMessage',
-             'onMenuShareQQ',
-             'onMenuShareQZone',
-             'onMenuShareWeibo',
-             'updateAppMessageShareData',
-             'updateTimelineShareData'
-           ]
-         }) {
+    debug = false,
+    appId,
+    timestamp,
+    nonceStr,
+    signature,
+    jsApiList = [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'onMenuShareQQ',
+      'onMenuShareQZone',
+      'onMenuShareWeibo',
+      'updateAppMessageShareData',
+      'updateTimelineShareData'
+    ]
+  }) {
     this.wxConfig = {
       debug,
       appId,
@@ -73,8 +71,7 @@ export default class {
    * @param readyCallBack
    * @return {WxShare}
    */
-  setReadyCallBack(readyCallBack = () => {
-  }) {
+  setReadyCallBack(readyCallBack = () => {}) {
     this.readyCallBack = readyCallBack;
     return this;
   }
@@ -84,8 +81,7 @@ export default class {
    * @param shareSuccessCallBack
    * @return {WxShare}
    */
-  setShareSuccessCallBack(shareSuccessCallBack = () => {
-  }) {
+  setShareSuccessCallBack(shareSuccessCallBack = () => {}) {
     this.shareSuccessCallBack = shareSuccessCallBack;
     return this;
   }
@@ -117,13 +113,13 @@ export default class {
       this.setDefaultShare(shareData);
     }
 
-    shareData = Object.assign({}, this.defaultShare, shareData);
+    const finalShareData = Object.assign({}, this.defaultShare, shareData);
 
     return Promise.resolve()
       .then(() => this._initWxSDK())
       .then(() => this._ready())
       .then(() => {
-        const oldShareData = Object.assign({}, shareData, {
+        const oldShareData = Object.assign({}, finalShareData, {
           success: (res) => this.shareSuccessCallBack(res)
         });
 
@@ -136,10 +132,10 @@ export default class {
         this.wx.onMenuShareQZone(oldShareData);
 
         // Above jssdk1.4
-        this.wx.updateAppMessageShareData(shareData, (res) => this.shareSuccessCallBack(res));
-        this.wx.updateTimelineShareData(shareData, (res) => this.shareSuccessCallBack(res));
+        this.wx.updateAppMessageShareData(finalShareData, (res) => this.shareSuccessCallBack(res));
+        this.wx.updateTimelineShareData(finalShareData, (res) => this.shareSuccessCallBack(res));
 
-        return Promise.resolve(shareData);
+        return Promise.resolve(finalShareData);
       });
   }
 
