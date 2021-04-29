@@ -35,7 +35,7 @@ const wxShare = require('@cycjimmy/weixin-share');
 ```
 
 ```javascript
-wxShare
+wxShare()
   .config([wechatJSSDKConfig])
   .setReadyCallBack([wechatConfigReadyCallBack])
   .setDefaultShare([defaultShare])
@@ -74,7 +74,7 @@ wxShare
 ```html
 <script src="weixin-share.umd.min.js"></script>
 <script>
-  wxShare
+  wxShare()
     .config({
       appId: [appId],
       timestamp: [timestamp],
@@ -95,7 +95,7 @@ wxShare
 
 To use via a CDN include this in your HTML:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@4/dist/weixin-share.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@5/dist/weixin-share.umd.min.js"></script>
 ```
 
 <!-- Links: -->
