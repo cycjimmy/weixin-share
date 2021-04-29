@@ -17,7 +17,6 @@ export const IS_DEPLOYMENT = process.env.NODE_ENV === 'deployment';
 export const input = './src/index.js';
 export const name = 'wxShare';
 export const banner = myBanner(pkg);
-export const exports = 'named';
 
 export const plugins = [
   json(),
