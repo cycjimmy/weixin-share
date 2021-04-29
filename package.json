@@ -4,7 +4,7 @@
   "description": "An easier way to call Wechat share on a web page.",
   "main": "dist/weixin-share.cjs.js",
   "module": "dist/weixin-share.esm.js",
-  "browser": "dist/weixin-share.umd.min.js",
+  "browser": "dist/weixin-share.iife.min.js",
   "scripts": {
     "test": "jest --color",
     "coveralls": "jest --color --coverage",

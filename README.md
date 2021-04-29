@@ -95,7 +95,7 @@ new WxShare()
 
 To use via a CDN include this in your HTML:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@4/dist/weixin-share.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@4/dist/weixin-share.iife.min.js"></script>
 ```
 
 <!-- Links: -->

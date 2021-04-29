@@ -16,7 +16,7 @@ export default [
     output: {
       name,
       file: pkg.browser,
-      format: 'umd',
+      format: 'iife',
       banner,
       exports,
     },
