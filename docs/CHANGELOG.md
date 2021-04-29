@@ -1,3 +1,10 @@
+## [4.0.3](https://github.com/cycjimmy/weixin-share/compare/v4.0.2...v4.0.3) (2021-04-29)
+
+
+### Bug Fixes
+
+* **browser:** browser use iife format ([96e21c1](https://github.com/cycjimmy/weixin-share/commit/96e21c118f88650ce56b13e7fbc8c5e88ea22e9c))
+
 ## [4.0.2](https://github.com/cycjimmy/weixin-share/compare/v4.0.1...v4.0.2) (2021-04-29)
 
 
