@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/cycjimmy/weixin-share/compare/v5.0.0...v5.1.0) (2021-04-29)
+
+
+### Features
+
+* use CreateInstance ([aa987ad](https://github.com/cycjimmy/weixin-share/commit/aa987adf1d5074e6311ef56994354b61b37c3c8c))
+
 # [5.0.0](https://github.com/cycjimmy/weixin-share/compare/v4.0.3...v5.0.0) (2021-04-29)
 
 
