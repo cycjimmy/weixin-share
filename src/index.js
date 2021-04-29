@@ -43,11 +43,7 @@ export default class {
     timestamp,
     nonceStr,
     signature,
-    jsApiList = [
-      'onMenuShareWeibo',
-      'updateAppMessageShareData',
-      'updateTimelineShareData'
-    ]
+    jsApiList = ['onMenuShareWeibo', 'updateAppMessageShareData', 'updateTimelineShareData']
   }) {
     this.wxConfig = {
       debug,
