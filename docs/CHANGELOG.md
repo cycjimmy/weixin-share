@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/cycjimmy/weixin-share/compare/v4.0.3...v5.0.0) (2021-04-29)
+
+
+### Features
+
+* use native singleton mode ([7ee6a8b](https://github.com/cycjimmy/weixin-share/commit/7ee6a8b38c464f832b136244a9874119ce2751e7))
+
+
+### BREAKING CHANGES
+
+* use native singleton mode
+
 ## [4.0.3](https://github.com/cycjimmy/weixin-share/compare/v4.0.2...v4.0.3) (2021-04-29)
 
 
