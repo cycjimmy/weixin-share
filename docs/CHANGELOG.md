@@ -1,3 +1,10 @@
+## [5.1.2](https://github.com/cycjimmy/weixin-share/compare/v5.1.1...v5.1.2) (2021-04-30)
+
+
+### Bug Fixes
+
+* **wx_jssdk_url:** replace 'https://' with '//' ([27accf3](https://github.com/cycjimmy/weixin-share/commit/27accf3690173ce37e321d2c20a46453d81a0fa8))
+
 ## [5.1.1](https://github.com/cycjimmy/weixin-share/compare/v5.1.0...v5.1.1) (2021-04-29)
 
 
