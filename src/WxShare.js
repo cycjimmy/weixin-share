@@ -1,4 +1,4 @@
-const WX_JSSDK_URL = 'https://res.wx.qq.com/open/js/jweixin-1.6.0.js';
+const WX_JSSDK_URL = '//res.wx.qq.com/open/js/jweixin-1.6.0.js';
 
 export default class {
   constructor() {
