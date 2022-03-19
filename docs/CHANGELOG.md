@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/cycjimmy/weixin-share/compare/v5.1.2...v6.0.0) (2022-03-19)
+
+
+### Features
+
+* change to module mode ([bf483f0](https://github.com/cycjimmy/weixin-share/commit/bf483f0bef1124f02a3c32a9ffe0918d440fe7b7))
+
+
+### BREAKING CHANGES
+
+* change to module mode
+
 ## [5.1.2](https://github.com/cycjimmy/weixin-share/compare/v5.1.1...v5.1.2) (2021-04-30)
 
 
