@@ -1,3 +1,4 @@
+/* eslint no-undef: off */
 import wxShare from '../src/index';
 
 describe('wxShare', () => {

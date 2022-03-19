@@ -12,7 +12,7 @@ export default class {
       title: document.title,
       desc: '',
       link: window.location.href.replace(/(\?|#).*/g, ''),
-      imgUrl: ''
+      imgUrl: '',
     };
     this._isInitDefaultShare = false;
   }
@@ -25,7 +25,7 @@ export default class {
    * @param nonceStr
    * @param signature
    * @param jsApiList
-   * @returns {{share(*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack(*=): NodeJS.Global.WxShare, _ready(): Promise<*>, setShareSuccessCallBack(*=): NodeJS.Global.WxShare, _initWxSDK(): Promise<*>, setDefaultShare(*=): NodeJS.Global.WxShare, backToDefault(): *, config({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}
+   * @returns {*}
    */
   config({
     debug = false,
@@ -33,7 +33,7 @@ export default class {
     timestamp,
     nonceStr,
     signature,
-    jsApiList = ['onMenuShareWeibo', 'updateAppMessageShareData', 'updateTimelineShareData']
+    jsApiList = ['onMenuShareWeibo', 'updateAppMessageShareData', 'updateTimelineShareData'],
   }) {
     this.wxConfig = {
       debug,
@@ -41,7 +41,7 @@ export default class {
       timestamp,
       nonceStr,
       signature,
-      jsApiList
+      jsApiList,
     };
     return this;
   }
@@ -49,7 +49,7 @@ export default class {
   /**
    * setReadyCallBack
    * @param readyCallBack
-   * @returns {{share(*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack(*=): this, _ready(): Promise<*>, setShareSuccessCallBack(*=): WxShare, _initWxSDK(): Promise<*>, setDefaultShare(*=): WxShare, backToDefault(): *, config({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): NodeJS.Global.WxShare, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): NodeJS.Global.WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): NodeJS.Global.WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}}
+   * @returns {*}
    */
   setReadyCallBack(readyCallBack = () => {}) {
     this.readyCallBack = readyCallBack;
@@ -59,7 +59,7 @@ export default class {
   /**
    * setShareSuccessCallBack
    * @param shareSuccessCallBack
-   * @returns {{share(*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack(*=): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): this, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): NodeJS.Global.WxShare, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): NodeJS.Global.WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): NodeJS.Global.WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}, _ready(): Promise<*>, setShareSuccessCallBack(*=): this, _initWxSDK(): Promise<*>, setDefaultShare(*=): WxShare, backToDefault(): *, config({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): NodeJS.Global.WxShare, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): NodeJS.Global.WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): NodeJS.Global.WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}}
+   * @returns {*}
    */
   setShareSuccessCallBack(shareSuccessCallBack = () => {}) {
     this.shareSuccessCallBack = shareSuccessCallBack;
@@ -69,10 +69,10 @@ export default class {
   /**
    * setDefaultShare
    * @param defaultShare
-   * @returns {{share(*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack(*=): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): this, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): NodeJS.Global.WxShare, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): NodeJS.Global.WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): NodeJS.Global.WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}, _ready(): Promise<*>, setShareSuccessCallBack(*=): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): this, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): NodeJS.Global.WxShare, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): NodeJS.Global.WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): NodeJS.Global.WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): this, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): NodeJS.Global.WxShare, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): NodeJS.Global.WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): NodeJS.Global.WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}, _initWxSDK(): Promise<*>, setDefaultShare(*=): this, backToDefault(): *, config({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): {share, (*=): Promise<commander.ParseOptionsResult.unknown>, setReadyCallBack, (*=): NodeJS.Global.WxShare, _ready, (): Promise<*>, setShareSuccessCallBack, (*=): NodeJS.Global.WxShare, _initWxSDK, (): Promise<*>, setDefaultShare, (*=): NodeJS.Global.WxShare, backToDefault, (): *, config, ({debug?: *, appId: *, timestamp: *, nonceStr: *, signature: *, jsApiList?: *}): this}}}
+   * @returns {*}
    */
   setDefaultShare(defaultShare = {}) {
-    this.defaultShare = Object.assign({}, this.defaultShare, defaultShare);
+    this.defaultShare = { ...this.defaultShare, ...defaultShare };
     this._isInitDefaultShare = true;
     return this;
   }
@@ -93,15 +93,16 @@ export default class {
       this.setDefaultShare(shareData);
     }
 
-    const finalShareData = Object.assign({}, this.defaultShare, shareData);
+    const finalShareData = { ...this.defaultShare, ...shareData };
 
     return Promise.resolve()
       .then(() => this._initWxSDK())
       .then(() => this._ready())
       .then(() => {
-        const oldShareData = Object.assign({}, finalShareData, {
-          success: (res) => this.shareSuccessCallBack(res)
-        });
+        const oldShareData = {
+          ...finalShareData,
+          success: (res) => this.shareSuccessCallBack(res),
+        };
 
         this.wx.onMenuShareWeibo(oldShareData);
 
