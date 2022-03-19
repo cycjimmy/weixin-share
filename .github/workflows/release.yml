@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - main
 
 jobs:
   test:
@@ -39,7 +40,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
-          branch: master
+          branch: main
           extra_plugins: |
             @semantic-release/git
             @semantic-release/changelog
