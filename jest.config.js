@@ -1,4 +1,5 @@
-module.exports = {
+export default {
+  testEnvironment: 'jsdom',
   coverageThreshold: {
     global: {
       branches: 50,

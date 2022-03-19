@@ -1,6 +1,5 @@
 # Weixin Share
 ![][workflows-badge-image]
-[![build status][travis-image]][travis-url]
 [![libraries dependency status][libraries-status-image]][libraries-status-url]
 [![libraries sourcerank][libraries-sourcerank-image]][libraries-sourcerank-url]
 [![Coverage Status][coverage-image]][coverage-url]
@@ -95,7 +94,7 @@ wxShare()
 
 To use via a CDN include this in your HTML:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@5/dist/weixin-share.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/weixin-share@6/dist/weixin-share.umd.min.js"></script>
 ```
 
 <!-- Links: -->
@@ -110,8 +109,6 @@ To use via a CDN include this in your HTML:
 [jsdelivr-url]: https://www.jsdelivr.com/package/npm/@cycjimmy/weixin-share
 
 [workflows-badge-image]: https://github.com/cycjimmy/weixin-share/workflows/Test%20CI/badge.svg
-[travis-image]: https://img.shields.io/travis/cycjimmy/weixin-share
-[travis-url]: https://travis-ci.org/cycjimmy/weixin-share
 
 [libraries-status-image]: https://img.shields.io/librariesio/release/npm/@cycjimmy/weixin-share
 [libraries-sourcerank-image]: https://img.shields.io/librariesio/sourcerank/npm/@cycjimmy/weixin-share
