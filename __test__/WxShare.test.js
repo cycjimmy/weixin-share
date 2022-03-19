@@ -1,12 +1,14 @@
+/* eslint no-undef: off */
+/* eslint no-console: off */
 import WxShare from '../src/WxShare';
 
 describe('WxShare', () => {
   const wxShare = new WxShare();
   const wxConfig = {
     appId: 'appId',
-    nonceStr: "nonceStr",
-    signature: "signature",
-    timestamp: "1573456877"
+    nonceStr: 'nonceStr',
+    signature: 'signature',
+    timestamp: '1573456877',
   };
   const readyCallBack = () => {
     console.log('readyCallBack');
@@ -18,13 +20,13 @@ describe('WxShare', () => {
     title: 'defaultTitle',
     link: 'https://default.com',
     desc: 'defaultDesc',
-    imgUrl: 'https://default.com/default.jpg'
+    imgUrl: 'https://default.com/default.jpg',
   };
   const customShare = {
     title: 'customTitle',
     link: 'https://custom.com',
     desc: 'customDesc',
-    imgUrl: 'https://custom.com/custom.jpg'
+    imgUrl: 'https://custom.com/custom.jpg',
   };
 
   // set config
@@ -42,7 +44,7 @@ describe('WxShare', () => {
     expect(wxShare.wxConfig.jsApiList).toEqual([
       'onMenuShareWeibo',
       'updateAppMessageShareData',
-      'updateTimelineShareData'
+      'updateTimelineShareData',
     ]);
   });
 
@@ -71,10 +73,11 @@ describe('WxShare', () => {
   it('Mock wxShare._initWxSDK', () => {
     // mock _initWxSDK
     wxShare._initWxSDK();
+    // eslint-disable-next-line no-multi-assign
     wxShare.wx = window.wx = {
       config: () => {
       },
-      ready: cb => cb(),
+      ready: (cb) => cb(),
       onMenuShareWeibo: () => {
       },
       updateAppMessageShareData: () => {
@@ -87,29 +90,23 @@ describe('WxShare', () => {
     expect(wxShare.wx).toBe(window.wx);
   });
 
-  it('wxShare.isConfigReady should be true after wxShare._ready().', () => {
-    return wxShare._ready().then(() => {
-      expect(wxShare.isConfigReady).toBe(true);
-    });
-  });
+  it('wxShare.isConfigReady should be true after wxShare._ready().', () => wxShare._ready().then(() => {
+    expect(wxShare.isConfigReady).toBe(true);
+  }));
 
-  it('wxShare.share(customShare) should return customShare', () => {
-    return wxShare.share(customShare)
-      .then(shareData => {
-        expect(shareData.title).toBe(customShare.title);
-        expect(shareData.desc).toBe(customShare.desc);
-        expect(shareData.link).toBe(customShare.link);
-        expect(shareData.imgUrl).toBe(customShare.imgUrl);
-      });
-  });
+  it('wxShare.share(customShare) should return customShare', () => wxShare.share(customShare)
+    .then((shareData) => {
+      expect(shareData.title).toBe(customShare.title);
+      expect(shareData.desc).toBe(customShare.desc);
+      expect(shareData.link).toBe(customShare.link);
+      expect(shareData.imgUrl).toBe(customShare.imgUrl);
+    }));
 
-  it('wxShare.backToDefault() should return defaultShare', () => {
-    return wxShare.backToDefault()
-      .then(shareData => {
-        expect(shareData.title).toBe(defaultShare.title);
-        expect(shareData.desc).toBe(defaultShare.desc);
-        expect(shareData.link).toBe(defaultShare.link);
-        expect(shareData.imgUrl).toBe(defaultShare.imgUrl);
-      });
-  });
+  it('wxShare.backToDefault() should return defaultShare', () => wxShare.backToDefault()
+    .then((shareData) => {
+      expect(shareData.title).toBe(defaultShare.title);
+      expect(shareData.desc).toBe(defaultShare.desc);
+      expect(shareData.link).toBe(defaultShare.link);
+      expect(shareData.imgUrl).toBe(defaultShare.imgUrl);
+    }));
 });
