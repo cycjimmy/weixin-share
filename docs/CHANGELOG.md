@@ -1,3 +1,10 @@
+## [7.0.1](https://github.com/cycjimmy/weixin-share/compare/v7.0.0...v7.0.1) (2022-03-26)
+
+
+### Bug Fixes
+
+* fix root version after releasing ([8b73e5a](https://github.com/cycjimmy/weixin-share/commit/8b73e5a1a2f4568cc6c6a6479ebd665e938058fe))
+
 # [7.0.0](https://github.com/cycjimmy/weixin-share/compare/v6.0.0...v7.0.0) (2022-03-26)
 
 
