@@ -1,3 +1,15 @@
+# [7.0.0](https://github.com/cycjimmy/weixin-share/compare/v6.0.0...v7.0.0) (2022-03-26)
+
+
+### Features
+
+* refactoring build tasks ([9ccad9c](https://github.com/cycjimmy/weixin-share/commit/9ccad9c425121f427b2177315c98e589231d9317))
+
+
+### BREAKING CHANGES
+
+* refactoring build tasks
+
 # [6.0.0](https://github.com/cycjimmy/weixin-share/compare/v5.1.2...v6.0.0) (2022-03-19)
 
 
