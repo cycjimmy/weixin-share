@@ -1,3 +1,10 @@
+## [7.0.2](https://github.com/cycjimmy/weixin-share/compare/v7.0.1...v7.0.2) (2022-06-21)
+
+
+### Bug Fixes
+
+* remove @rollup/plugin-commonjs ([eb0bec1](https://github.com/cycjimmy/weixin-share/commit/eb0bec165bb30ecdf72432228dafed8e187c4452))
+
 ## [7.0.1](https://github.com/cycjimmy/weixin-share/compare/v7.0.0...v7.0.1) (2022-03-26)
 
 
