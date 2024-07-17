@@ -1,3 +1,10 @@
+## [7.0.3](https://github.com/cycjimmy/weixin-share/compare/v7.0.2...v7.0.3) (2024-07-17)
+
+
+### Bug Fixes
+
+* upgrade rollup to v4 ([b9ecae9](https://github.com/cycjimmy/weixin-share/commit/b9ecae9581e505bb942c6ba7f0fdf141fb06784f))
+
 ## [7.0.2](https://github.com/cycjimmy/weixin-share/compare/v7.0.1...v7.0.2) (2022-06-21)
 
 
