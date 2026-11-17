@@ -1,3 +1,17 @@
+# [8.0.0](https://github.com/cycjimmy/weixin-share/compare/v7.0.3...v8.0.0) (2026-11-17)
+
+
+* feat!: rebuild the toolchain on Vite, TypeScript and ESM-only output ([5809855](https://github.com/cycjimmy/weixin-share/commit/5809855ec1e218c9bbc19570c732b21f82972e71))
+
+
+### BREAKING CHANGES
+
+* the package is now ESM only (main/module/exports resolve to
+dist/weixin-share.esm.js) and the CommonJS bundle is gone. The UMD builds target
+ES2015, so Internet Explorer is no longer supported, and Node.js older than
+22.22.2 can no longer require() the package. The wxShare() runtime API, the UMD
+global and the CDN file names are unchanged.
+
 ## [7.0.3](https://github.com/cycjimmy/weixin-share/compare/v7.0.2...v7.0.3) (2024-07-17)
 
 

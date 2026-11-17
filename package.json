@@ -1,7 +1,7 @@
 {
   "name": "@cycjimmy/weixin-share",
   "type": "module",
-  "version": "7.0.3",
+  "version": "8.0.0",
   "description": "An easier way to call Wechat share on a web page.",
   "author": "cycjimmy <cycjimmy@gmail.com> (https://github.com/cycjimmy)",
   "license": "MIT",
