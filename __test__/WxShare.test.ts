@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import WxShare from '../src/WxShare.js'
 
@@ -42,6 +42,30 @@ function setupWx() {
   window.wx = wxStub
 
   return wxStub
+}
+
+/**
+ * Return the js-sdk script injected by `initWxSDK()`.
+ */
+function takeInjectedScript(): HTMLScriptElement {
+  const scripts = document.head.querySelectorAll<HTMLScriptElement>('script[src*="jweixin"]')
+  const script = scripts.item(scripts.length - 1)
+
+  if (!script) {
+    throw new Error('The js-sdk script was not injected.')
+  }
+
+  return script
+}
+
+/**
+ * Let the promise chain inside `share()` reach the point where the js-sdk
+ * script has been appended to the document.
+ */
+function flushPromises(): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 0)
+  })
 }
 
 describe('wxShare.config()', () => {
@@ -92,6 +116,13 @@ describe('wxShare.config()', () => {
 })
 
 describe('wxShare callbacks', () => {
+  it('starts with no-op callbacks', () => {
+    const wxShare = new WxShare()
+
+    expect(() => wxShare.readyCallBack()).not.toThrow()
+    expect(() => wxShare.shareSuccessCallBack()).not.toThrow()
+  })
+
   it('stores the ready callback', () => {
     const readyCallBack = vi.fn()
     const wxShare = new WxShare().setReadyCallBack(readyCallBack)
@@ -182,6 +213,21 @@ describe('wxShare.share()', () => {
     expect(data).toEqual(customShare)
     expect(shareSuccessCallBack).toHaveBeenCalledWith('shared')
   })
+
+  it('forwards the weibo share result to the success callback', async () => {
+    const wxStub = setupWx()
+    const shareSuccessCallBack = vi.fn()
+    const wxShare = new WxShare()
+      .config(wxConfig)
+      .setShareSuccessCallBack(shareSuccessCallBack)
+
+    await wxShare.share(customShare)
+
+    const [weiboShareData] = wxStub.onMenuShareWeibo.mock.calls[0]
+    weiboShareData.success('weibo-shared')
+
+    expect(shareSuccessCallBack).toHaveBeenCalledWith('weibo-shared')
+  })
 })
 
 describe('wxShare.backToDefault()', () => {
@@ -195,5 +241,54 @@ describe('wxShare.backToDefault()', () => {
     await wxShare.share(customShare)
 
     expect(await wxShare.backToDefault()).toEqual(defaultShare)
+  })
+})
+
+describe('wxShare js-sdk loading', () => {
+  beforeEach(() => {
+    delete window.wx
+    document.head.querySelectorAll('script[src*="jweixin"]').forEach(script => script.remove())
+  })
+
+  it('injects the js-sdk script when window.wx is missing', async () => {
+    const wxShare = new WxShare().config(wxConfig)
+    const promise = wxShare.share(customShare)
+
+    await flushPromises()
+
+    const script = takeInjectedScript()
+
+    expect(script.getAttribute('src')).toBe('//res.wx.qq.com/open/js/jweixin-1.6.0.js')
+    expect(script.type).toBe('text/javascript')
+
+    window.wx = createWxStub()
+    script.dispatchEvent(new Event('load'))
+
+    await expect(promise).resolves.toEqual(customShare)
+    expect(wxShare.wx).toBe(window.wx)
+  })
+
+  it('rejects when the script loads without providing wx', async () => {
+    const wxShare = new WxShare().config(wxConfig)
+    // A previous ready() succeeded, so only the last guard in share() can fail.
+    wxShare.isConfigReady = true
+
+    const rejection = expect(wxShare.share(customShare)).rejects.toThrow('The WeChat JS-SDK is not available.')
+
+    await flushPromises()
+    takeInjectedScript().dispatchEvent(new Event('load'))
+
+    await rejection
+  })
+
+  it('rejects when the js-sdk is missing while becoming ready', async () => {
+    const wxShare = new WxShare().config(wxConfig)
+
+    const rejection = expect(wxShare.share(customShare)).rejects.toThrow('The WeChat JS-SDK is not available.')
+
+    await flushPromises()
+    takeInjectedScript().dispatchEvent(new Event('load'))
+
+    await rejection
   })
 })
