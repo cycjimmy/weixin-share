@@ -1,0 +1,247 @@
+name: Issue Bot
+
+# Rule-based triage for issues: label/reply on newly opened issues, and
+# release the needs-info label once the reporter comes back with details.
+# All untrusted issue content is passed through environment variables (never
+# interpolated into a shell command) so it cannot break out of the workflow.
+
+on:
+  issues:
+    types: [opened, edited]
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+# Serialize the per-issue handlers: label checks and replies are not atomic, so
+# parallel edits or comments would answer the reporter twice.
+concurrency:
+  group: issue-triage-${{ github.repository }}-${{ github.event.issue.number }}
+  cancel-in-progress: false
+  # `single` would let a newer queued run replace a waiting one: a reply from the
+  # reporter could be dropped because a maintainer commented right after it.
+  queue: max
+
+jobs:
+  triage:
+    name: Triage new issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply triage rules
+        uses: actions/github-script@v9
+        env:
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
+          SENDER: ${{ github.event.sender.login }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        with:
+          script: |
+            const issueAuthor = process.env.ISSUE_AUTHOR || '';
+            const commentAuthor = process.env.COMMENT_AUTHOR || '';
+            const sender = process.env.SENDER || '';
+            // Never react to bot activity to avoid loops
+            if ([issueAuthor, commentAuthor, sender].some((login) => login.endsWith('[bot]'))) return;
+            // `issue_comment` also fires for pull requests; only issues are triaged
+            if (context.payload.issue?.pull_request) return;
+            // Only getting back from the reporter counts as engagement: a
+            // maintainer asking for logs must not release the needs-info label
+            const isReporter = sender === issueAuthor;
+
+            const body = process.env.ISSUE_BODY || '';
+            const lower = (process.env.ISSUE_TITLE + '\n' + body).toLowerCase();
+            const issueNumber = context.issue.number;
+            const isCommentEvent = context.payload.comment != null;
+            const isOpened = context.payload.action === 'opened' && !isCommentEvent;
+            const isEdited = context.payload.action === 'edited' && !isCommentEvent;
+
+            const labels = (names) => github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: names,
+            }).catch((error) => {
+              // A label missing from the repository is a configuration problem,
+              // it must not take the whole triage run down with it
+              if (error.status !== 422) throw error;
+              core.warning(`Label missing from the repository: ${names.join(', ')}`);
+            });
+
+            const removeLabel = (name) => github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              name,
+            }).catch((error) => {
+              // The label is already gone, nothing to do
+              if (error.status !== 404) throw error;
+            });
+
+            const reply = (message) => github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: message,
+            });
+
+            // The stale workflow closes a needs-info issue and leaves a comment
+            // that starts with this sentence. The marker is never looked for in the
+            // newest comment of the thread: by the time this runs the reporter's
+            // own reply is newer than the notification, so the whole close cycle
+            // is scanned instead (see `closedAutomatically`).
+            const AUTO_CLOSE_NOTE = 'This issue was closed because the requested information was not provided within 7 days.';
+            const closedAutomatically = async (issue) => {
+              if (issue.state !== 'closed') return false;
+
+              const timeline = await github.paginate(github.rest.issues.listEventsForTimeline, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                per_page: 100,
+              });
+
+              const indexed = timeline.map((event, index) => ({ event, index }));
+
+              // The most recent close is the one that matters: an issue can be
+              // closed, reopened and closed again.
+              const lastClose = indexed.filter(({ event }) => event.event === 'closed').pop();
+
+              // Closing through `GITHUB_TOKEN` is attributed to the actions bot,
+              // so anything else is a maintainer's decision and stays closed.
+              if (!lastClose || lastClose.event.actor?.login !== 'github-actions[bot]') return false;
+
+              // The notification is searched for across the whole cycle that ends
+              // with this close. The reporter can answer after the notification was
+              // posted and before the close landed, and looking at a single "last
+              // comment" would pick that reply up - losing the marker for good,
+              // because the history before the close never changes again.
+              const cycleStart = indexed
+                .filter(({ event, index }) => index < lastClose.index && event.event === 'reopened')
+                .pop()?.index ?? -1;
+
+              return indexed.some(({ event, index }) => index > cycleStart
+                && index < lastClose.index
+                && event.event === 'commented'
+                && typeof event.body === 'string'
+                && event.body.startsWith(AUTO_CLOSE_NOTE));
+            };
+
+            // One handler for both ways the reporter can come back - a comment or
+            // an edit of the issue body. Both re-read the issue, because the
+            // payload is a snapshot taken before this run got the concurrency lock.
+            const handleReporterFollowUp = async (message) => {
+              const { data: live } = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+              });
+              const liveLabels = live.labels
+                .map((label) => (typeof label === 'string' ? label : label.name));
+              if (!liveLabels.includes('needs-info')) return;
+
+              // Closed automatically: the missing information has arrived, so the
+              // closure is undone. This runs before the label is dropped, which
+              // is what lets a later comment still find the markers it needs.
+              if (liveLabels.includes('stale') && (await closedAutomatically(live))) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  state: 'open',
+                });
+                await removeLabel('stale');
+                await removeLabel('needs-info');
+                await reply(
+                  'Thanks for the follow-up! This issue had been closed automatically, ' +
+                  'so it has been reopened and is back in the normal review queue.'
+                );
+                return;
+              }
+
+              // Closed by a maintainer: the activity is noted but the decision
+              // stands. An open issue only needs the label removed.
+              if (live.state !== 'open') return;
+              await removeLabel('needs-info');
+              await reply(message);
+            };
+
+            // Drop only the scaffolding the issue forms generate: their own
+            // "### <label>" headings and the "_No response_" placeholders.
+            // Everything else - including headings, issue references and code
+            // comments written by the reporter - counts as information.
+            const formHeading = /^###\s+(Describe the bug|Version|Environment|Steps to reproduce|Relevant configuration|Expected behavior|Relevant log output|Additional context|Is your feature request related to a problem\?|Describe the solution you'd like|Describe alternatives you've considered)$/i;
+            const userContent = body
+              .split('\n')
+              .map((line) => line.trim())
+              .filter((line) => line && !formHeading.test(line) && !/^_no response_$/i.test(line))
+              .join('\n');
+
+            if (isOpened || isEdited) {
+              // Rule 1: publishing to npm or the GitHub Package Registry fails
+              if (isOpened && /e40[13]|forbidden|authentication|npm publish|publish (fail|error)|registry/.test(lower)) {
+                await labels(['publish-auth']);
+                await reply(
+                  'This looks like a publishing or registry authentication problem.\n\n' +
+                  'This package publishes to both npm and the GitHub Package Registry ' +
+                  '(GPR) from the Release workflow. npm publishing uses OIDC trusted ' +
+                  'publishing, so no long-lived token is involved. Common causes:\n\n' +
+                  '- The trusted publisher is missing on npmjs.com for this repository ' +
+                  'and `release.yml`\n' +
+                  '- The workflow lacks the `packages: write` or `id-token: write` permission\n' +
+                  '- The package scope does not match the GitHub owner for GPR ' +
+                  '(`@<owner>/...`)\n\n' +
+                  'Please attach the relevant part of the workflow run log so we can ' +
+                  'take a closer look.'
+                );
+                return;
+              }
+
+              // Rule 2: question about how to use this package
+              if (isOpened && /how (do|to|can i)|use this|usage|vanished|not work/.test(lower)) {
+                await labels(['usage']);
+                await reply(
+                  'This looks like a usage question about this package.\n\n' +
+                  'Please take a look at the [README](../blob/main/README.md) for the ' +
+                  'API, the module formats and the CDN builds, and at ' +
+                  '[CONTRIBUTING.md](../blob/main/CONTRIBUTING.md) for the development ' +
+                  'workflow.\n\n' +
+                  'Keep in mind that the WeChat share APIs only work inside the WeChat ' +
+                  'built-in browser, with a signature generated for the current page ' +
+                  'URL.\n\n' +
+                  'If that does not answer your question, let us know what you are ' +
+                  'trying to achieve and where you got stuck.'
+                );
+                return;
+              }
+
+              // Rule 3: low-information report (nearly every form field left empty)
+              if (isOpened && userContent.length < 200) {
+                await labels(['needs-info']);
+                await reply(
+                  'Thanks for opening this issue! Unfortunately, there is not enough ' +
+                  'information to investigate it yet. Please edit the issue and add:\n\n' +
+                  '- The version of this package you are using\n' +
+                  '- The `wxShare()` configuration and the share call you make\n' +
+                  '- The browser console log around the failure\n\n' +
+                  'The issue will be closed automatically if there is no response within 7 days.'
+                );
+              } else if (isEdited && isReporter && context.payload.changes?.body) {
+                // The reporter came back with details on edit. A title-only edit
+                // says nothing about the missing details, and an issue that was
+                // closed in the meantime is reopened by the same handler.
+                await handleReporterFollowUp(
+                  'Thanks for the additional details! The `needs-info` label has ' +
+                  'been removed, so this issue is back in the normal review queue.'
+                );
+              }
+              return;
+            }
+
+            // Comment event: a reply from the reporter also counts as engagement.
+            if (isCommentEvent && isReporter) {
+              await handleReporterFollowUp(
+                'Thanks for the reply! The `needs-info` label has been removed, so ' +
+                'this issue is back in the normal review queue.'
+              );
+            }

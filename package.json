@@ -1,67 +1,78 @@
 {
   "name": "@cycjimmy/weixin-share",
+  "type": "module",
   "version": "7.0.3",
   "description": "An easier way to call Wechat share on a web page.",
-  "type": "module",
-  "main": "dist/weixin-share.cjs",
-  "module": "dist/weixin-share.esm.js",
-  "browser": "dist/weixin-share.umd.min.js",
-  "exports": {
-    "require": "./dist/weixin-share.cjs",
-    "import": "./dist/weixin-share.esm.js"
-  },
-  "scripts": {
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --color --forceExit --detectOpenHandles",
-    "coveralls": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --color --forceExit --detectOpenHandles --coverage",
-    "lint": "eslint --ext .js,.cjs,.mjs -c .eslintrc .",
-    "lint:fix": "eslint --ext .js,.cjs,.mjs --fix -c .eslintrc . --fix",
-    "build": "trash dist && npm run build:prod:umd && npm run build:prod",
-    "build:prod": "cross-env NODE_ENV=production rollup -c rollup/rollup.config.prod.mjs",
-    "build:prod:umd": "cross-env NODE_ENV=production rollup -c rollup/rollup.config.dev.mjs",
-    "package": "trash .release && npm run build && node tasks/copyFiles.js && node tasks/handlePackageJson.js"
-  },
+  "author": "cycjimmy <cycjimmy@gmail.com> (https://github.com/cycjimmy)",
+  "license": "MIT",
+  "homepage": "https://github.com/cycjimmy/weixin-share#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cycjimmy/weixin-share.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cycjimmy/weixin-share/issues"
   },
   "keywords": [
     "wechat",
     "wexin",
     "share"
   ],
-  "author": "cycjimmy <cycjimmy@gmail.com> (https://github.com/cycjimmy)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/cycjimmy/weixin-share/issues"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/weixin-share.esm.js",
+      "default": "./dist/weixin-share.esm.js"
+    },
+    "./package.json": "./package.json"
   },
-  "homepage": "https://github.com/cycjimmy/weixin-share#readme",
+  "main": "dist/weixin-share.esm.js",
+  "module": "dist/weixin-share.esm.js",
+  "browser": "dist/weixin-share.umd.min.js",
+  "unpkg": "dist/weixin-share.umd.min.js",
+  "jsdelivr": "dist/weixin-share.umd.min.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "build": "trash dist && npm run build:types && npm run build:esm && npm run build:umd && npm run build:umd:min",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:esm": "vite build --mode esm",
+    "build:umd": "vite build --mode umd",
+    "build:umd:min": "vite build --mode umd-min",
+    "package": "trash .release && npm run build && node tasks/copyFiles.ts && node tasks/handlePackageJson.ts",
+    "verify:dts": "tsc --noEmit --ignoreConfig --module nodenext --moduleResolution nodenext --target es2022 dist/index.d.ts"
+  },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@cycjimmy/awesome-js-funcs": "^4.0.9"
+    "@cycjimmy/awesome-js-funcs": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.9",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-object-assign": "^7.24.7",
-    "@babel/preset-env": "^7.24.8",
+    "@antfu/eslint-config": "^10.0.0",
     "@cycjimmy/config-lib": "^3.2.1",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-eslint": "^9.0.5",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^16.0.0",
-    "@rollup/plugin-terser": "^1.0.0",
-    "babel-jest": "^30.1.2",
-    "coveralls": "^3.1.1",
-    "cross-env": "^10.0.0",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^26.6.6",
+    "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^10.15.0",
     "fs-extra": "^11.2.0",
-    "jest": "^30.1.3",
-    "jest-environment-jsdom": "^30.1.2",
-    "rollup": "^4.18.1",
-    "trash-cli": "^6.0.0"
+    "jiti": "^2.7.0",
+    "jsdom": "^31.0.1",
+    "terser": "^5.51.2",
+    "trash-cli": "^7.2.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   }
 }

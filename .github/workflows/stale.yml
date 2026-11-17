@@ -1,0 +1,174 @@
+name: Stale
+
+# Closes inactive issues: general half-year staleness plus a shorter
+# lifecycle for issues that are still waiting on reporter information.
+
+on:
+  schedule:
+    # Every day at 03:00 UTC
+    - cron: '0 3 * * *'
+
+  # Manual trigger, so the lifecycle below can be verified without waiting for
+  # the next schedule. The script is idempotent: it only acts on issues that are
+  # already past the 7-day window.
+  workflow_dispatch:
+
+jobs:
+  stale:
+    name: Mark and close stale issues
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      actions: write # for actions/stale to refresh its progress cache
+    steps:
+      - uses: actions/stale@v11
+        with:
+          # Issues only, never touch pull requests
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
+          # Mark stale after half a year of inactivity, close 14 days later
+          days-before-stale: 180
+          days-before-close: 14
+          # needs-info issues have their own shorter lifecycle (see below)
+          exempt-issue-labels: 'triaged,needs-info'
+          stale-issue-label: stale
+          stale-issue-message: >
+            This issue has been automatically marked as stale because it has not
+            had recent activity. It will be closed in 14 days if no further
+            activity occurs.
+          close-issue-message: >
+            This issue was closed because it has been inactive for 14 days since
+            it was marked stale. Feel free to reopen it if the problem persists.
+
+  # Kept out of `actions/stale` on purpose: that action persists a processed-issue
+  # list under a single, hardcoded cache key, so two instances in the same
+  # repository would share it and each would skip issues the other had seen.
+  #
+  # The needs-info lifecycle is split into a read-only scan and one close job per
+  # issue. Closing from a single batch job cannot be made safe: the reporter may
+  # answer and issueBot may clear the label between the check and the close, and a
+  # batch job has no way to serialize against that. Per-issue jobs can, because
+  # they join the same concurrency group issueBot uses.
+  needs_info_scan:
+    name: Scan issues that need info
+    runs-on: ubuntu-latest
+    # Listing candidates only, so this job gets no write scope
+    permissions:
+      issues: read
+    outputs:
+      count: ${{ steps.scan.outputs.count }}
+      candidates: ${{ steps.scan.outputs.candidates }}
+    steps:
+      - name: List issues labelled needs-info for more than 7 days
+        id: scan
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+            const MAX_CANDIDATES = 20;
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'needs-info',
+              per_page: 100,
+            });
+
+            const labelNames = (issue) => issue.labels
+              .map((label) => (typeof label === 'string' ? label : label.name));
+
+            const candidates = issues
+              // Only issues, never pull requests
+              .filter((issue) => !issue.pull_request)
+              // A maintainer who triaged the issue outranks the short lifecycle,
+              // which is what the `triaged` label promises on the issue itself
+              .filter((issue) => !labelNames(issue).includes('triaged'))
+              .filter((issue) => Date.now() - new Date(issue.updated_at).getTime() >= WINDOW_MS)
+              // Bounded on purpose: one run should not fan out over an unbounded
+              // number of issues, and the rest are picked up the next day
+              .slice(0, MAX_CANDIDATES)
+              .map((issue) => issue.number);
+
+            core.info(`Found ${candidates.length} issue(s) idle with the needs-info label for more than 7 days.`);
+            core.setOutput('count', String(candidates.length));
+            // A single 0 keeps the matrix non-empty: an empty vector makes the
+            // close job fail to expand instead of doing nothing.
+            core.setOutput('candidates', JSON.stringify(candidates.length > 0 ? candidates : [0]));
+
+  needs_info_close:
+    name: Close issues that need info
+    needs: needs_info_scan
+    if: needs.needs_info_scan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    # Closing happens here, so this is the only job with a write scope
+    permissions:
+      issues: write
+    # The same group issueBot uses, so the reply handler and this close are
+    # serialized for a given issue instead of racing on the same snapshot
+    concurrency:
+      group: issue-triage-${{ github.repository }}-${{ matrix.issue }}
+      cancel-in-progress: false
+      # Keep every queued run instead of replacing it: the reply that clears
+      # `needs-info` must not be dropped in favour of a later comment
+      queue: max
+    strategy:
+      fail-fast: false
+      matrix:
+        issue: ${{ fromJSON(needs.needs_info_scan.outputs.candidates) }}
+    steps:
+      - name: Close the issue if it still needs info
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const issueNumber = Number('${{ matrix.issue }}');
+            if (!Number.isInteger(issueNumber) || issueNumber < 1) {
+              core.info('No candidate issue to close.');
+              return;
+            }
+
+            const WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+            const labelNames = (issue) => issue.labels
+              .map((label) => (typeof label === 'string' ? label : label.name));
+
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+            });
+
+            // Re-check everything the scan saw. The scan output is a snapshot:
+            // issueBot may have removed `needs-info` because the reporter came
+            // back, a maintainer may have triaged it, or a comment may have
+            // refreshed `updated_at`.
+            const labels = labelNames(issue);
+            if (issue.state !== 'open'
+              || !labels.includes('needs-info')
+              || labels.includes('triaged')
+              || Date.now() - new Date(issue.updated_at).getTime() < WINDOW_MS) {
+              core.info(`Issue #${issueNumber} no longer qualifies; leaving it alone.`);
+              return;
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              labels: ['stale'],
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: 'This issue was closed because the requested information was not ' +
+                'provided within 7 days. Please reopen it or open a new issue with ' +
+                'the requested details.',
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              state: 'closed',
+              state_reason: 'not_planned',
+            });
+
+            core.info(`Closed #${issueNumber} after 7 days without the requested information.`);
