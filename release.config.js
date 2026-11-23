@@ -4,7 +4,7 @@
 // in the project instead, so a `release.config.ts` would fail inside the action.
 import process from 'node:process'
 
-import makeConfig from '@cycjimmy/config-lib/esm/semanticRelease/19.x/makeConfigWithPgkRootForLibrary.js'
+import makeConfig from '@cycjimmy/config-lib/dist/semanticRelease/19.x/makeConfigWithPgkRootForLibrary.js'
 
 import pkg from './package.json' with { type: 'json' }
 

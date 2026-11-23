@@ -1,15 +1,17 @@
+import type { BannerPackageInfo } from '@cycjimmy/config-lib/dist/chore/myBanner.js'
 import type { BuildOptions, TerserOptions } from 'vite'
 
 import { createRequire } from 'node:module'
 
-import myBanner from '@cycjimmy/config-lib/esm/chore/myBanner.js'
-import terserOption from '@cycjimmy/config-lib/esm/terser/4.x/production.js'
+import myBanner from '@cycjimmy/config-lib/dist/chore/myBanner.js'
+import terserOption from '@cycjimmy/config-lib/dist/terser/4.x/production.js'
 import { defineConfig } from 'vite'
 
-interface PackageJsonMeta {
+// config-lib's banner reads these fields, and the build below needs the two
+// entry paths.
+interface PackageJsonMeta extends BannerPackageInfo {
   module: string
   browser: string
-  [key: string]: unknown
 }
 
 interface LibraryBuildOptions {
@@ -23,7 +25,6 @@ const pkg = createRequire(import.meta.url)('./package.json') as PackageJsonMeta
 
 // config-lib's shared option follows terser 4's legacy `output` key. Vite 8 always
 // injects `format` and terser rejects having both, so convert `output` → `format`.
-// The assertion is confined to this boundary because config-lib ships no types.
 const { output, ...restTerserOption } = terserOption
 const terserOptions = { ...restTerserOption, format: output } as TerserOptions
 
