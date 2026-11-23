@@ -42,9 +42,10 @@ loading `dist/weixin-share.umd.min.js`.
   through cosmiconfig, whose TypeScript loader resolves `typescript` from
   semantic-release's own install tree (inside the action) rather than from this
   project.
-* `src/types/*.d.ts` holds the ambient declarations for `window.wx`, for
-  `@cycjimmy/config-lib` and for `@cycjimmy/awesome-js-funcs`, none of which
-  ship types. They are not emitted, so they never reach `dist/`.
+* `src/types/*.d.ts` holds the ambient declarations for `window.wx` and for
+  `@cycjimmy/awesome-js-funcs`, neither of which ships types. `@cycjimmy/config-lib`
+  provides its own declarations next to the built modules, so it needs no shim.
+  They are not emitted, so they never reach `dist/`.
 
 ## Build outputs
 
